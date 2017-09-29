@@ -49,6 +49,9 @@ namespace CodyDocs
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideOptionPage(typeof(OptionPageGrid),
         "CodyDocs", "General", 0, 0, true)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     public sealed class OptionsPackage : Package
     {
         /// <summary>
@@ -76,6 +79,24 @@ namespace CodyDocs
         protected override void Initialize()
         {
             base.Initialize();
+            EnableDisableCodyDocsCommand.Initialize(this);
+
+            //OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            //if (null != mcs)
+            //{
+            //    // Create the command for the menu item. 
+            //    CommandID menuCommandID = new CommandID(new Guid("e0e79a86-61bf-4d09-8291-709475b1ab60"), (int)0x0100);
+            //    //CommandID menuCommandID = new CommandID(GuidList.guidMenuPackage1CmdSet, (int)PkgCmdIDList.cmdidMyCommand);
+            //    MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+            //    mcs.AddCommand(menuItem);
+
+            //    CommandID id = new CommandID(Microsoft.VisualStudio.VSConstants.GUID_VSStandardCommandSet97, (int)Microsoft.VisualStudio.VSConstants.VSStd97CmdID.Toolbox);
+
+            //    OleMenuCommand command = new OleMenuCommand(MenuItemCallback, id);
+            //    command.BeforeQueryStatus += new EventHandler(MenuItemCallback);
+
+            //    mcs.AddCommand(command);
+            //}
         }
 
         #endregion

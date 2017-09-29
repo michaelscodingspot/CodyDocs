@@ -54,6 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EnableDisableCodyDocsCommand.cs" />
     <Compile Include="GeneralSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -77,6 +78,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <VSCTCompile Include="OptionsPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+    <Content Include="Resources\EnableDisableCodyDocsCommand.png" />
     <Content Include="Resources\OptionsPackage.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
