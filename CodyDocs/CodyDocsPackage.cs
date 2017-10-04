@@ -9,23 +9,9 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
-using System.ComponentModel;
 
 namespace CodyDocs
 {
-    public class OptionPageGrid : DialogPage
-    {
-        private bool _enableCodyDocs = true;
-
-        [Category("Features")]
-        [DisplayName("Enable CodyDocs")]
-        [Description("Toggle to enable CodyDocs documentation")]
-        public bool EnableCodyDocs
-        {
-            get { return _enableCodyDocs; }
-            set { _enableCodyDocs = value; }
-        }
-    }
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -45,24 +31,22 @@ namespace CodyDocs
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [Guid(OptionsPackage.PackageGuidString)]
+    [Guid(CodyDocsPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    [ProvideOptionPage(typeof(OptionPageGrid),
-        "CodyDocs", "General", 0, 0, true)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
-    public sealed class OptionsPackage : Package
+    public sealed class CodyDocsPackage : Package
     {
         /// <summary>
-        /// OptionsPackage GUID string.
+        /// CodyDocsPackage GUID string.
         /// </summary>
-        public const string PackageGuidString = "05f18475-73cf-40ad-abd7-bb727f987a0d";
+        public const string PackageGuidString = "d7e6db18-6f70-496a-a8c6-09bc7b05d466";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsPackage"/> class.
+        /// Initializes a new instance of the <see cref="CodyDocsPackage"/> class.
         /// </summary>
-        public OptionsPackage()
+        public CodyDocsPackage()
         {
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
@@ -80,23 +64,6 @@ namespace CodyDocs
         {
             base.Initialize();
             EnableDisableCodyDocsCommand.Initialize(this);
-
-            //OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            //if (null != mcs)
-            //{
-            //    // Create the command for the menu item. 
-            //    CommandID menuCommandID = new CommandID(new Guid("e0e79a86-61bf-4d09-8291-709475b1ab60"), (int)0x0100);
-            //    //CommandID menuCommandID = new CommandID(GuidList.guidMenuPackage1CmdSet, (int)PkgCmdIDList.cmdidMyCommand);
-            //    MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
-            //    mcs.AddCommand(menuItem);
-
-            //    CommandID id = new CommandID(Microsoft.VisualStudio.VSConstants.GUID_VSStandardCommandSet97, (int)Microsoft.VisualStudio.VSConstants.VSStd97CmdID.Toolbox);
-
-            //    OleMenuCommand command = new OleMenuCommand(MenuItemCallback, id);
-            //    command.BeforeQueryStatus += new EventHandler(MenuItemCallback);
-
-            //    mcs.AddCommand(command);
-            //}
         }
 
         #endregion

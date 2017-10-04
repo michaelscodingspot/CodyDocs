@@ -19,7 +19,7 @@ namespace CodyDocs
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("e0e79a86-61bf-4d09-8291-709475b1ab60");
+        public static readonly Guid CommandSet = new Guid("69c0b337-59d8-4591-8cbd-a59603459d56");
 
         /// <summary>
         /// VS Package that provides this command, not null.
@@ -49,20 +49,6 @@ namespace CodyDocs
                 commandService.AddCommand(command);
             }
         }
-
-        //private void OnBeforeQueryStatus(object sender, EventArgs e)
-        //{
-        //    _command.Checked = true;
-
-        //    //OleMenuCommand command;
-        //    //if ((command = sender as OleMenuCommand) != null)
-        //    //{
-
-
-        //    //    command.Checked = GeneralSettings.Default.EnableCodyDocs;
-        //    //}
-
-        //}
 
         /// <summary>
         /// Gets the instance of the command.
