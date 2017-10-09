@@ -67,7 +67,7 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidCodyDocsPackageCmdSet" id="EnableDisableCodyDocsCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCodyDocsPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+        <Icon guid="guidVMarkImage" id="vmarkPic1" />
         <Strings>
           <ButtonText>Enable/Disable CodyDocs</ButtonText>
         </Strings>
@@ -82,6 +82,7 @@
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\EnableDisableCodyDocsCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidVMarkImage" href="Resources\vmark.png" usedList="vmarkPic1"/>
     </Bitmaps>
   </Commands>
 
@@ -94,6 +95,10 @@
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="EnableDisableCodyDocsCommandId" value="0x0100" />
       <IDSymbol name="TopLevelMenu" value="0x1021"/>
+    </GuidSymbol>
+    
+    <GuidSymbol name="guidVMarkImage" value="{e8355adc-5b1b-45b2-8b03-a76fc449a9ee}">
+      <IDSymbol name="vmarkPic1" value="1" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{e9355adc-5b1b-45b2-8b03-a76fc449a9ee}" >

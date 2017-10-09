@@ -82,6 +82,7 @@
     <Content Include="index.html" />
     <Content Include="Resources\CodyDocsPackage.ico" />
     <Content Include="Resources\EnableDisableCodyDocsCommand.png" />
+    <Content Include="Resources\vmark.png" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
