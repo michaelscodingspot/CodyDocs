@@ -64,6 +64,7 @@ namespace CodyDocs
         {
             base.Initialize();
             EnableDisableCodyDocsCommand.Initialize(this);
+            DocumentCodeSpanCommand.Initialize(this);
         }
 
         #endregion

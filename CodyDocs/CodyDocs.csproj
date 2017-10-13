@@ -55,6 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodyDocsPackage.cs" />
+    <Compile Include="DocumentCodeSpanCommand.cs" />
     <Compile Include="EnableDisableCodyDocsCommand.cs" />
     <Compile Include="GeneralSettings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -78,9 +79,11 @@
   <ItemGroup>
     <VSCTCompile Include="CodyDocsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
     <Content Include="Resources\CodyDocsPackage.ico" />
+    <Content Include="Resources\DocumentCodeSpanCommand.png" />
     <Content Include="Resources\EnableDisableCodyDocsCommand.png" />
     <Content Include="Resources\vmark.png" />
     <Content Include="stylesheet.css" />
