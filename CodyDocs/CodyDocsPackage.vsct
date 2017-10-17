@@ -77,7 +77,6 @@
       </Button>
       <Button guid="guidCodyDocsPackageCmdSet1" id="cmdidDocumentCodeSpanCommand" priority="0x0100" type="Button">
         <Parent guid="guidCodyDocsPackageCmdSet1" id="EditorContextMenuGroup" />
-        <!--<Icon guid="guidImages1" id="bmpPic1" />-->
         <Strings>
           <ButtonText>Add documentation</ButtonText>
         </Strings>
@@ -93,7 +92,6 @@
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\EnableDisableCodyDocsCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidVMarkImage" href="Resources\vmark.png" usedList="vmarkPic1" />
-      <!--<Bitmap guid="guidImages1" href="Resources\DocumentCodeSpanCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />-->
     </Bitmaps>
   </Commands>
 
@@ -126,13 +124,5 @@
       <IDSymbol value="256" name="cmdidDocumentCodeSpanCommand" />
     </GuidSymbol>
   
-    <GuidSymbol value="{7d85ff45-40c8-46c7-ab5e-93c81ac667ee}" name="guidImages1">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
-    </GuidSymbol>
   </Symbols>
 </CommandTable>

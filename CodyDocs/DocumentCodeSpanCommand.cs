@@ -3,6 +3,8 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TextManager.Interop;
+using EnvDTE;
 
 namespace CodyDocs
 {
@@ -87,17 +89,40 @@ namespace CodyDocs
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "DocumentCodeSpanCommand";
+            TextViewSelection selection = GetSelection(ServiceProvider);
+            string activeDocumentPath = GetActiveDocumentFilePath(ServiceProvider);
+            ShowAddDocumentationWindow(activeDocumentPath, selection);
+        }
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+        private void ShowAddDocumentationWindow(string activeDocumentPath, TextViewSelection selection)
+        {
+            System.Windows.Window x = new System.Windows.Window();
+            x.Content = new AddDocumentationControl();
+            x.ShowDialog();
+        }
+
+        private string GetActiveDocumentFilePath(IServiceProvider serviceProvider)
+        {
+            EnvDTE80.DTE2 applicationObject = serviceProvider.GetService(typeof(DTE)) as EnvDTE80.DTE2;
+            return applicationObject.ActiveDocument.FullName;
+            
+        }
+
+        private TextViewSelection GetSelection(IServiceProvider serviceProvider)
+        {
+            var service = serviceProvider.GetService(typeof(SVsTextManager));
+            var textManager = service as IVsTextManager2;
+            IVsTextView view;
+            int result = textManager.GetActiveView2(1, null, (uint)_VIEWFRAMETYPE.vftCodeWindow, out view);
+
+            view.GetSelection(out int startLine, out int startColumn, out int endLine, out int endColumn);//end could be before beginning
+            var start = new TextViewPosition(startLine, startColumn);
+            var end = new TextViewPosition(endLine, endColumn);
+
+            view.GetSelectedText(out string selectedText);
+
+            TextViewSelection selection = new TextViewSelection(start, end, selectedText);
+            return selection;
         }
     }
 }
