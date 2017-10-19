@@ -96,9 +96,8 @@ namespace CodyDocs
 
         private void ShowAddDocumentationWindow(string activeDocumentPath, TextViewSelection selection)
         {
-            System.Windows.Window x = new System.Windows.Window();
-            x.Content = new AddDocumentationControl();
-            x.ShowDialog();
+            var documentationControl = new AddDocumentationWindow() { SelectionText = selection.Text };
+            documentationControl.ShowDialog();
         }
 
         private string GetActiveDocumentFilePath(IServiceProvider serviceProvider)

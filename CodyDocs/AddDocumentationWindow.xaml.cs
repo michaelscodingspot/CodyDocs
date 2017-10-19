@@ -18,11 +18,21 @@ namespace CodyDocs
     /// <summary>
     /// Interaction logic for AddDocumentationControl.xaml
     /// </summary>
-    public partial class AddDocumentationControl : UserControl
+    public partial class AddDocumentationWindow
     {
-        public AddDocumentationControl()
+        public AddDocumentationWindow()
         {
             InitializeComponent();
         }
+
+        public string SelectionText
+        {
+            get { return (string)GetValue(SelectionTextProperty); }
+            set { SetValue(SelectionTextProperty, value); }
+        }
+        public static readonly DependencyProperty SelectionTextProperty =
+            DependencyProperty.Register("SelectionText", typeof(string), typeof(AddDocumentationWindow), new PropertyMetadata(""));
+
+
     }
 }

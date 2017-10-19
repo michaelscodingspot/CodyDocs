@@ -54,9 +54,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AddDocumentationControl.xaml.cs">
-      <DependentUpon>AddDocumentationControl.xaml</DependentUpon>
+    <Compile Include="AddDocumentationWindow.xaml.cs">
+      <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseDialogWindow.cs" />
     <Compile Include="CodyDocsPackage.cs" />
     <Compile Include="DocumentCodeSpanCommand.cs" />
     <Compile Include="EnableDisableCodyDocsCommand.cs" />
@@ -203,7 +204,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AddDocumentationControl.xaml">
+    <Page Include="AddDocumentationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
