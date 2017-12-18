@@ -96,7 +96,7 @@ namespace CodyDocs
 
         private void ShowAddDocumentationWindow(string activeDocumentPath, TextViewSelection selection)
         {
-            var documentationControl = new AddDocumentationWindow() { SelectionText = selection.Text };
+            var documentationControl = new AddDocumentationWindow(activeDocumentPath, selection);
             documentationControl.ShowDialog();
         }
 

@@ -65,10 +65,10 @@ public struct TextViewPosition
 
         //public bool IsEmpty { get { return Line <= 0 && Column <= 0; } }
 
-        //public bool Equals(TextViewPosition other)
-        //{
-        //    return _column == other._column && _line == other._line;
-        //}
+    public bool Equals(TextViewPosition other)
+    {
+        return _column == other._column && _line == other._line;
+    }
 
         //public override bool Equals(object obj)
         //{

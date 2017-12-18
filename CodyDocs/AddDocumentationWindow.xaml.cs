@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodyDocs.Models;
+using CodyDocs.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,19 +22,47 @@ namespace CodyDocs
     /// </summary>
     public partial class AddDocumentationWindow
     {
-        public AddDocumentationWindow()
+        public AddDocumentationWindow(string documentPath, TextViewSelection selection)
         {
             InitializeComponent();
+            this._documentPath = documentPath;
+            this._selectionText = selection;
+            this.Loaded += (s,e) =>this.SelectionTextBox.Text = selection.Text;
         }
 
-        public string SelectionText
+        
+        private string _documentPath;
+        private TextViewSelection _selectionText;
+
+        private void OnCancel(object sender, RoutedEventArgs e)
         {
-            get { return (string)GetValue(SelectionTextProperty); }
-            set { SetValue(SelectionTextProperty, value); }
+            this.Close();
         }
-        public static readonly DependencyProperty SelectionTextProperty =
-            DependencyProperty.Register("SelectionText", typeof(string), typeof(AddDocumentationWindow), new PropertyMetadata(""));
 
+        private void OnSave(object sender, RoutedEventArgs e)
+        {
+            if (this.DocumentationTextBox.Text.Trim() == "")
+            {
+                MessageBox.Show("Documentation can't be empty.");
+                return;
+            }
 
+            var newDocFragment = new DocumentationFragment()
+            {
+                Documentation = this.DocumentationTextBox.Text,
+                Selection = this._selectionText
+            };
+            try
+            {
+                DocumentationFileHandler.AddDocumentationFragment(newDocFragment, this._documentPath+".doc");
+                MessageBox.Show("Documentation added successfully.");
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Documentation add failed. Exception: " + ex.ToString());
+            }
+
+        }
     }
 }
