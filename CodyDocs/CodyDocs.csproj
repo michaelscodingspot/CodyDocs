@@ -54,15 +54,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AddDocumentationWindow.xaml.cs">
+    <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
       <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Adornments\DocumentedCodeHighlighter\DocumentedCodeHighlighterTagger.cs" />
     <Compile Include="Adornments\DocumentedCodeHighlighter\DocumentedCodeHighlighterTaggerProvider.cs" />
-    <Compile Include="BaseDialogWindow.cs" />
+    <Compile Include="Dialogs\BaseDialogWindow.cs" />
     <Compile Include="CodyDocsPackage.cs" />
-    <Compile Include="DocumentCodeSpanCommand.cs" />
-    <Compile Include="EnableDisableCodyDocsCommand.cs" />
+    <Compile Include="Commands\DocumentCodeSpanCommand.cs" />
+    <Compile Include="Commands\EnableDisableCodyDocsCommand.cs" />
     <Compile Include="GeneralSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -225,7 +225,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AddDocumentationWindow.xaml">
+    <Page Include="Dialogs\AddDocumentationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

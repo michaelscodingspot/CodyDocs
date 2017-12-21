@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
 using EnvDTE;
+//using Microsoft.VisualStudio.OLE.Interop;
+using System.Diagnostics;
 
 namespace CodyDocs
 {
@@ -115,12 +117,16 @@ namespace CodyDocs
             int result = textManager.GetActiveView2(1, null, (uint)_VIEWFRAMETYPE.vftCodeWindow, out view);
 
             view.GetSelection(out int startLine, out int startColumn, out int endLine, out int endColumn);//end could be before beginning
-            var start = new TextViewPosition(startLine, startColumn);
-            var end = new TextViewPosition(endLine, endColumn);
+
+            int ok = view.GetNearestPosition(startLine, startColumn, out int position1, out int piVirtualSpaces);
+            ok = view.GetNearestPosition(endLine, endColumn, out int position2, out piVirtualSpaces);
+
+            var startPosition = Math.Min(position1, position2);
+            var endPosition = Math.Max(position1, position2);
 
             view.GetSelectedText(out string selectedText);
 
-            TextViewSelection selection = new TextViewSelection(start, end, selectedText);
+            TextViewSelection selection = new TextViewSelection(startPosition, endPosition, selectedText);
             return selection;
         }
     }

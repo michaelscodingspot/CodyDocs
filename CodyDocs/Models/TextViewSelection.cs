@@ -8,14 +8,14 @@ namespace CodyDocs
 {
     public struct TextViewSelection
     {
-        public TextViewPosition StartPosition { get; set; }
-        public TextViewPosition EndPosition { get; set; }
+        public int StartPosition { get; set; }
+        public int EndPosition { get; set; }
         public string Text { get; set; }
 
-        public TextViewSelection(TextViewPosition a, TextViewPosition b, string text)
+        public TextViewSelection(int a, int b, string text)
         {
-            StartPosition = TextViewPosition.Min(a, b);
-            EndPosition = TextViewPosition.Max(a, b);
+            StartPosition = a;
+            EndPosition = b;
             Text = text;
         }
     }
