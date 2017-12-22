@@ -63,6 +63,9 @@
     <Compile Include="CodyDocsPackage.cs" />
     <Compile Include="Commands\DocumentCodeSpanCommand.cs" />
     <Compile Include="Commands\EnableDisableCodyDocsCommand.cs" />
+    <Compile Include="Events\DocumentationAddedEvent.cs" />
+    <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\EventAggregatorExport.cs" />
     <Compile Include="GeneralSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -70,10 +73,12 @@
     </Compile>
     <Compile Include="Models\FileDocumentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Consts.cs" />
     <Compile Include="Services\DocumentationFileHandler.cs" />
     <Compile Include="Services\DocumentationFileSerializer.cs" />
     <Compile Include="Models\TextViewPosition.cs" />
     <Compile Include="Models\TextViewSelection.cs" />
+    <Compile Include="Services\MefServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -115,6 +120,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.ComponentModelHost.15.4.27004\lib\net45\Microsoft.VisualStudio.ComponentModelHost.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.CoreUtility.15.4.27004\lib\net45\Microsoft.VisualStudio.CoreUtility.dll</HintPath>

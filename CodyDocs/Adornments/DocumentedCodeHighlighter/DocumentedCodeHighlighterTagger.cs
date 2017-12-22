@@ -1,4 +1,6 @@
-﻿using CodyDocs.Models;
+﻿using CodyDocs.Events;
+using CodyDocs.Models;
+using CodyDocs.Services;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -19,15 +21,36 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
     {
         private ITextView _textView;
         private ITextBuffer _buffer;
+        private IEventAggregator _eventAggregator;
+        private readonly string _codyDocsFilename;
+        private readonly DelegateListener<DocumentationAddedEvent> _listener;
         private FileDocumentation _documentation;
 
-        public DocumentedCodeHighlighterTagger(ITextView textView, ITextBuffer buffer)
+        public DocumentedCodeHighlighterTagger(ITextView textView, ITextBuffer buffer, IEventAggregator eventAggregator)
         {
             _textView = textView;
             _buffer = buffer;
+            _eventAggregator = eventAggregator;
             var filename = GetFileName(buffer);
-            var codyDocsFilename = filename + ".doc";
-            _documentation = Services.DocumentationFileSerializer.Deserialize(codyDocsFilename);
+            _codyDocsFilename = filename + Consts.CODY_DOCS_EXTENSION;
+            _listener = new DelegateListener<DocumentationAddedEvent>(OnDocumentationAdded);
+            _eventAggregator.AddListener<DocumentationAddedEvent>(_listener);
+
+        }
+
+        private void DeserializeDocumentation()
+        {
+            _documentation = Services.DocumentationFileSerializer.Deserialize(_codyDocsFilename);
+        }
+
+        private void OnDocumentationAdded(DocumentationAddedEvent e)
+        {
+            string filepath = e.Filepath;
+            if (filepath == _codyDocsFilename)
+            {
+                TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(
+                    new SnapshotSpan(_buffer.CurrentSnapshot, new Span(0, _buffer.CurrentSnapshot.Length - 1))));
+            }
         }
 
         private string GetFileName(ITextBuffer buffer)
@@ -41,6 +64,8 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
 
         public IEnumerable<ITagSpan<DocumentedCodeHighlighterTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
+            DeserializeDocumentation();
+
             List<ITagSpan<DocumentedCodeHighlighterTag>> res = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
             var currentSnapshot = _buffer.CurrentSnapshot;
             //var wpfTextView = _textView as IWpfTextView;

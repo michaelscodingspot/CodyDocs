@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using CodyDocs.Services;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -65,6 +67,7 @@ namespace CodyDocs
             base.Initialize();
             EnableDisableCodyDocsCommand.Initialize(this);
             DocumentCodeSpanCommand.Initialize(this);
+            MefServices.ComponentModel = this.GetService(typeof(SComponentModel)) as IComponentModel;
         }
 
         #endregion

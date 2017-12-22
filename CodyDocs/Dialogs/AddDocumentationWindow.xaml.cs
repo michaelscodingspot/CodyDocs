@@ -1,7 +1,9 @@
-﻿using CodyDocs.Models;
+﻿using CodyDocs.Events;
+using CodyDocs.Models;
 using CodyDocs.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,16 @@ namespace CodyDocs
     /// </summary>
     public partial class AddDocumentationWindow
     {
+        //[Import]
+        public IEventAggregator EventAggregator { get; set; }
+
         public AddDocumentationWindow(string documentPath, TextViewSelection selection)
         {
             InitializeComponent();
             this._documentPath = documentPath;
             this._selectionText = selection;
+            //EventAggregator = MefServices.ServiceProvider.GetService(typeof(IEventAggregator)) as IEventAggregator;//VisualStudioServices.ComponentModel.GetService
+            EventAggregator = MefServices.ComponentModel.GetService<IEventAggregator>();
             this.Loaded += (s,e) =>this.SelectionTextBox.Text = selection.Text;
         }
 
@@ -54,8 +61,12 @@ namespace CodyDocs
             };
             try
             {
-                DocumentationFileHandler.AddDocumentationFragment(newDocFragment, this._documentPath+".doc");
+                string filepath = this._documentPath + Consts.CODY_DOCS_EXTENSION;
+                DocumentationFileHandler.AddDocumentationFragment(newDocFragment, filepath);
                 MessageBox.Show("Documentation added successfully.");
+                EventAggregator.SendMessage<DocumentationAddedEvent>(
+                    new DocumentationAddedEvent() { Filepath = filepath }
+                    );
                 this.Close();
             }
             catch(Exception ex)

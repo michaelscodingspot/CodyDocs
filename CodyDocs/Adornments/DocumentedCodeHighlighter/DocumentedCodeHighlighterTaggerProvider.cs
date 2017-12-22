@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using CodyDocs.Adornments.DocumentedCodeHighlighter;
+using CodyDocs.Events;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
@@ -21,6 +22,14 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
     [TagType(typeof(DocumentedCodeHighlighterTag))]
     public class DocumentedCodeHighlighterTaggerProvider : IViewTaggerProvider
     {
+        private IEventAggregator _eventAggregator;
+
+        [ImportingConstructor]
+        public DocumentedCodeHighlighterTaggerProvider(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
+
         #region ITaggerProvider Members
 
         //[Import]
@@ -45,7 +54,7 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
             //ITextStructureNavigator textStructureNavigator =
             //    TextStructureNavigatorSelector.GetTextStructureNavigator(buffer);
 
-            return new DocumentedCodeHighlighterTagger(textView, buffer/*, TextSearchService, textStructureNavigator*/) as ITagger<T>;
+            return new DocumentedCodeHighlighterTagger(textView, buffer, _eventAggregator) as ITagger<T>;
         }
 
         #endregion
