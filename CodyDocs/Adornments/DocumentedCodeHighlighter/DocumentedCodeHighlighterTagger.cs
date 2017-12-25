@@ -12,10 +12,6 @@ using System.Threading.Tasks;
 
 namespace CodyDocs.Adornments.DocumentedCodeHighlighter
 {
-    public class DocumentedCodeHighlighterTag : TextMarkerTag
-    {
-        public DocumentedCodeHighlighterTag() :  base("blue") { }
-    }
 
     class DocumentedCodeHighlighterTagger : ITagger<DocumentedCodeHighlighterTag>
     {
@@ -68,23 +64,15 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
 
             List<ITagSpan<DocumentedCodeHighlighterTag>> res = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
             var currentSnapshot = _buffer.CurrentSnapshot;
-            //var wpfTextView = _textView as IWpfTextView;
             foreach (var fragment in _documentation.Fragments)
             {
                 int startPos = fragment.Selection.StartPosition;
                 int length = fragment.Selection.EndPosition - fragment.Selection.StartPosition;
                 var snapshotSpan = new SnapshotSpan(currentSnapshot, new Span(startPos, length));
                 res.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, new DocumentedCodeHighlighterTag()));
-                //_buffer.CurrentSnapshot.TextBuffer.
-                //fragment.Selection.StartPosition
             }
 
             return res;
-            //if (_buffer.CurrentSnapshot.Length < 40)
-            //    return new List<ITagSpan<DocumentedCodeHighlighterTag>>();
-            //var tag1 = new TagSpan<DocumentedCodeHighlighterTag>(new SnapshotSpan(_buffer.CurrentSnapshot, new Span(30, 40)), new DocumentedCodeHighlighterTag());
-
-            //return new List<ITagSpan<DocumentedCodeHighlighterTag>>() { tag1 };
         }
     }
 }
