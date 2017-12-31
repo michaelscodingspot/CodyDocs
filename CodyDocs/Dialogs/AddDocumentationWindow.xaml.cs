@@ -24,22 +24,18 @@ namespace CodyDocs
     /// </summary>
     public partial class AddDocumentationWindow
     {
-        //[Import]
         public IEventAggregator EventAggregator { get; set; }
+        private string _documentPath;
+        private TextViewSelection _selectionText;
 
         public AddDocumentationWindow(string documentPath, TextViewSelection selection)
         {
             InitializeComponent();
             this._documentPath = documentPath;
             this._selectionText = selection;
-            //EventAggregator = MefServices.ServiceProvider.GetService(typeof(IEventAggregator)) as IEventAggregator;//VisualStudioServices.ComponentModel.GetService
             EventAggregator = MefServices.ComponentModel.GetService<IEventAggregator>();
             this.Loaded += (s,e) =>this.SelectionTextBox.Text = selection.Text;
         }
-
-        
-        private string _documentPath;
-        private TextViewSelection _selectionText;
 
         private void OnCancel(object sender, RoutedEventArgs e)
         {

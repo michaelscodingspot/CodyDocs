@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
 
-namespace CodyDocs.Adornments.DocumentedCodeHighlighter
+namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
 {
     [Export(typeof(EditorFormatDefinition))]
     [Name("MarkerFormatDefinition/DocumentedCodeFormatDefinition")]
@@ -19,5 +19,10 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
             this.DisplayName = "Highlight Word";
             this.ZOrder = 5;
         }
+    }
+
+    class x: ClassificationFormatDefinition
+    {
+
     }
 }

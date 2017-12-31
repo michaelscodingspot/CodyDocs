@@ -1,17 +1,17 @@
 ﻿using CodyDocs.Events;
-using CodyDocs.Models;
 using CodyDocs.Services;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CodyDocs.Adornments.DocumentedCodeHighlighter
+namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
 {
+    public class DocumentedCodeHighlighterTag : TextMarkerTag
+    {
+        public DocumentedCodeHighlighterTag() : base("MarkerFormatDefinition/DocumentedCodeFormatDefinition") { }
+    }
 
     class DocumentedCodeHighlighterTagger : ITagger<DocumentedCodeHighlighterTag>
     {
@@ -20,7 +20,6 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
         private IEventAggregator _eventAggregator;
         private readonly string _codyDocsFilename;
         private readonly DelegateListener<DocumentationAddedEvent> _listener;
-        private FileDocumentation _documentation;
 
         public DocumentedCodeHighlighterTagger(ITextView textView, ITextBuffer buffer, IEventAggregator eventAggregator)
         {
@@ -32,11 +31,6 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
             _listener = new DelegateListener<DocumentationAddedEvent>(OnDocumentationAdded);
             _eventAggregator.AddListener<DocumentationAddedEvent>(_listener);
 
-        }
-
-        private void DeserializeDocumentation()
-        {
-            _documentation = Services.DocumentationFileSerializer.Deserialize(_codyDocsFilename);
         }
 
         private void OnDocumentationAdded(DocumentationAddedEvent e)
@@ -60,11 +54,11 @@ namespace CodyDocs.Adornments.DocumentedCodeHighlighter
 
         public IEnumerable<ITagSpan<DocumentedCodeHighlighterTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
-            DeserializeDocumentation();
+            var documentation = Services.DocumentationFileSerializer.Deserialize(_codyDocsFilename);
 
             List<ITagSpan<DocumentedCodeHighlighterTag>> res = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
             var currentSnapshot = _buffer.CurrentSnapshot;
-            foreach (var fragment in _documentation.Fragments)
+            foreach (var fragment in documentation.Fragments)
             {
                 int startPos = fragment.Selection.StartPosition;
                 int length = fragment.Selection.EndPosition - fragment.Selection.StartPosition;

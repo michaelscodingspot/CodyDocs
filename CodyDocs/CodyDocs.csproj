@@ -54,13 +54,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Adornments\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
-    <Compile Include="Adornments\DocumentedCodeHighlighter\DocumentedCodeHighlighterTag.cs" />
+    <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
       <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Adornments\DocumentedCodeHighlighter\DocumentedCodeHighlighterTagger.cs" />
-    <Compile Include="Adornments\DocumentedCodeHighlighter\DocumentedCodeHighlighterTaggerProvider.cs" />
+    <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeHighlighterTagger.cs" />
+    <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeHighlighterTaggerProvider.cs" />
     <Compile Include="Dialogs\BaseDialogWindow.cs" />
     <Compile Include="CodyDocsPackage.cs" />
     <Compile Include="Commands\DocumentCodeSpanCommand.cs" />
