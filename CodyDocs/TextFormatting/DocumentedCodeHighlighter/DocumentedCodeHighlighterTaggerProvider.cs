@@ -22,9 +22,6 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
             _eventAggregator = eventAggregator;
         }
 
-        [Import]
-        internal ITextStructureNavigatorSelectorService TextStructureNavigatorSelector { get; set; }
-
         /// <summary>
         /// This method is called by VS to generate the tagger
         /// </summary>

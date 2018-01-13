@@ -65,9 +65,13 @@ namespace CodyDocs
         protected override void Initialize()
         {
             base.Initialize();
+            DocumentLifetimeManager.Initialize(this);
             EnableDisableCodyDocsCommand.Initialize(this);
             DocumentCodeSpanCommand.Initialize(this);
-            MefServices.ComponentModel = this.GetService(typeof(SComponentModel)) as IComponentModel;
+            //VisualStudioServices.InitializeAsync(this);
+
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+                VisualStudioServices.ComponentModel = this.GetService(typeof(SComponentModel)) as IComponentModel);
         }
 
         #endregion

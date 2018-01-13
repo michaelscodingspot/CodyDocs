@@ -24,8 +24,15 @@ namespace CodyDocs.Services
 
         public static void Serialize(string filepath, FileDocumentation data)
         {
-            string serialized = JsonConvert.SerializeObject(data);
-            File.WriteAllText(filepath, serialized);
+            if (data.Fragments.Count == 0)
+            {
+                File.Delete(filepath);
+            }
+            else
+            {
+                string serialized = JsonConvert.SerializeObject(data);
+                File.WriteAllText(filepath, serialized);
+            }
         }
     }
 }

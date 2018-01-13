@@ -33,8 +33,14 @@ namespace CodyDocs
             InitializeComponent();
             this._documentPath = documentPath;
             this._selectionText = selection;
-            EventAggregator = MefServices.ComponentModel.GetService<IEventAggregator>();
-            this.Loaded += (s,e) =>this.SelectionTextBox.Text = selection.Text;
+            EventAggregator = VisualStudioServices.ComponentModel.GetService<IEventAggregator>();
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            this.SelectionTextBox.Text = _selectionText.Text;
+            DocumentationTextBox.Focus();
         }
 
         private void OnCancel(object sender, RoutedEventArgs e)
@@ -61,8 +67,11 @@ namespace CodyDocs
                 DocumentationFileHandler.AddDocumentationFragment(newDocFragment, filepath);
                 MessageBox.Show("Documentation added successfully.");
                 EventAggregator.SendMessage<DocumentationAddedEvent>(
-                    new DocumentationAddedEvent() { Filepath = filepath }
-                    );
+                    new DocumentationAddedEvent()
+                    {
+                        Filepath = filepath,
+                        DocumentationFragment = newDocFragment
+                    });
                 this.Close();
             }
             catch(Exception ex)

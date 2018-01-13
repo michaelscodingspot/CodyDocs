@@ -54,6 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Services\DocumentLifetimeManager.cs" />
     <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
       <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
@@ -64,7 +65,7 @@
     <Compile Include="CodyDocsPackage.cs" />
     <Compile Include="Commands\DocumentCodeSpanCommand.cs" />
     <Compile Include="Commands\EnableDisableCodyDocsCommand.cs" />
-    <Compile Include="Events\DocumentationAddedEvent.cs" />
+    <Compile Include="Events\Events.cs" />
     <Compile Include="Events\EventAggregator.cs" />
     <Compile Include="Events\EventAggregatorExport.cs" />
     <Compile Include="GeneralSettings.Designer.cs">
@@ -79,7 +80,7 @@
     <Compile Include="Services\DocumentationFileSerializer.cs" />
     <Compile Include="Models\TextViewPosition.cs" />
     <Compile Include="Models\TextViewSelection.cs" />
-    <Compile Include="Services\MefServices.cs" />
+    <Compile Include="Services\VisualStudioServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
