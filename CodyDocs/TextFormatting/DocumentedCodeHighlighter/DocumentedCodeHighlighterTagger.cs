@@ -134,7 +134,6 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
         {
             List<ITagSpan<DocumentedCodeHighlighterTag>> tags = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
 
-            List<ITrackingSpan> keysIncluded = new List<ITrackingSpan>();
             var currentSnapshot = _buffer.CurrentSnapshot;
             foreach (var trackingSpan in _trackingSpans.Keys)
             {
