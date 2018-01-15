@@ -54,13 +54,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornment.cs" />
+    <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornmentTagger.cs" />
+    <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornmentTaggerProvider.cs" />
+    <Compile Include="EditorUI\AdornmentSupport\IntraTextAdornmentTagger.cs" />
     <Compile Include="Services\DocumentLifetimeManager.cs" />
-    <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
       <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeHighlighterTagger.cs" />
-    <Compile Include="TextFormatting\DocumentedCodeHighlighter\DocumentedCodeHighlighterTaggerProvider.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeHighlighterTag.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeHighlighterTagger.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeHighlighterTaggerProvider.cs" />
     <Compile Include="Dialogs\BaseDialogWindow.cs" />
     <Compile Include="CodyDocsPackage.cs" />
     <Compile Include="Commands\DocumentCodeSpanCommand.cs" />
@@ -226,6 +231,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />

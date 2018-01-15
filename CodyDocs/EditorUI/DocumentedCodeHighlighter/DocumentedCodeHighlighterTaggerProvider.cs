@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 
-namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
+namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
     [Export]
     [Export(typeof(IViewTaggerProvider))]
@@ -34,6 +34,8 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
             if (textView.TextBuffer != buffer)
                 return null;
 
+            //return buffer.Properties.GetOrCreateSingletonProperty(() => 
+            //    new DocumentedCodeHighlighterTagger(textView, buffer, _eventAggregator) as ITagger<T>);
             return new DocumentedCodeHighlighterTagger(textView, buffer, _eventAggregator) as ITagger<T>;
         }
     }

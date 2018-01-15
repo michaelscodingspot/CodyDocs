@@ -8,13 +8,8 @@ using System.Linq;
 using System.Collections.Generic;
 using CodyDocs.Models;
 
-namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
+namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
-    public class DocumentedCodeHighlighterTag : TextMarkerTag
-    {
-        public DocumentedCodeHighlighterTag() : base("MarkerFormatDefinition/DocumentedCodeFormatDefinition") { }
-    }
-
     class DocumentedCodeHighlighterTagger : ITagger<DocumentedCodeHighlighterTag>
     {
         private ITextView _textView;
@@ -133,14 +128,16 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
         public IEnumerable<ITagSpan<DocumentedCodeHighlighterTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
             List<ITagSpan<DocumentedCodeHighlighterTag>> tags = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
+            if (spans.Count == 0)
+                return tags;
 
-            var currentSnapshot = _buffer.CurrentSnapshot;
+            var relevantSnapshot = spans.First().Snapshot;//_buffer.CurrentSnapshot;
             foreach (var trackingSpan in _trackingSpans.Keys)
             {
-                var spanInCurrentSnapshot = trackingSpan.GetSpan(currentSnapshot);
+                var spanInCurrentSnapshot = trackingSpan.GetSpan(relevantSnapshot);
                 if (spans.Any(sp => spanInCurrentSnapshot.IntersectsWith(sp)))
                 {
-                    var snapshotSpan = new SnapshotSpan(currentSnapshot, spanInCurrentSnapshot);
+                    var snapshotSpan = new SnapshotSpan(relevantSnapshot, spanInCurrentSnapshot);
                     tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, new DocumentedCodeHighlighterTag()));
                 }
                 

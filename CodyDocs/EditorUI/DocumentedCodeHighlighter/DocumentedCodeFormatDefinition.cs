@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 using System.Windows.Media;
 
-namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
+namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
     [Export(typeof(EditorFormatDefinition))]
     [Name("MarkerFormatDefinition/DocumentedCodeFormatDefinition")]
