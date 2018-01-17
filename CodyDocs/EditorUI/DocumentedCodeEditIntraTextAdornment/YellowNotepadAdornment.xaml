@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Image Source="../../Resources/yellow_notepad.png" Margin="0 3"/>
+    <Image Source="../../Resources/yellow_notepad.png" Margin="3 0 1 0"/>
+    
 
 </UserControl>

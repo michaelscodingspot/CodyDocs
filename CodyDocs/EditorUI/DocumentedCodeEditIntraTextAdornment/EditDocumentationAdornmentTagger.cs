@@ -17,39 +17,34 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
             Lazy<ITagAggregator<DocumentedCodeHighlighterTag>> highlightTagger)
         {
             return view.Properties.GetOrCreateSingletonProperty<EditDocumentationAdornmentTagger>(
-                () => new EditDocumentationAdornmentTagger(view, eventAggregator, highlightTagger.Value));
+                () => new EditDocumentationAdornmentTagger(view, highlightTagger.Value));
         }
 
 
-        private ITagAggregator<DocumentedCodeHighlighterTag> _highlightTagger;
-        private DelegateListener<DocumentationAddedEvent> _documentationAddedListener;
+        private ITagAggregator<DocumentedCodeHighlighterTag> _tagAggregator;
         private ITextBuffer _buffer;
         private string _codyDocsFilename;
 
-        private EditDocumentationAdornmentTagger(IWpfTextView view, IEventAggregator eventAggregator, ITagAggregator<DocumentedCodeHighlighterTag> highlightTagger)
+        private EditDocumentationAdornmentTagger(IWpfTextView view, ITagAggregator<DocumentedCodeHighlighterTag> tagAggregator)
             : base(view)
         {
-            this._highlightTagger = highlightTagger;
-            _documentationAddedListener = new DelegateListener<DocumentationAddedEvent>(OnDocumentationAdded);
+            this._tagAggregator = tagAggregator;
+            _tagAggregator.TagsChanged += OnTagsChanged;
             _buffer = view.TextBuffer;
             _codyDocsFilename = view.TextBuffer.GetCodyDocsFileName();
-            eventAggregator.AddListener<DocumentationAddedEvent>(_documentationAddedListener);
+
         }
 
-        private void OnDocumentationAdded(DocumentationAddedEvent e)
+        private void OnTagsChanged(object sender, TagsChangedEventArgs e)
         {
-            string filepath = e.Filepath;
-            if (filepath == _codyDocsFilename)
-            {
-                var span = e.DocumentationFragment.GetSpan();
-                InvokeTagsChanged(this, new SnapshotSpanEventArgs(
-                    new SnapshotSpan(_buffer.CurrentSnapshot, span)));
-            }
-        }
+            var snapshotSpan = e.Span.GetSnapshotSpan();//Extension method
+            InvokeTagsChanged(sender, new SnapshotSpanEventArgs(snapshotSpan));
 
+        }
+        
         public void Dispose()
         {
-            _highlightTagger.Dispose();
+            _tagAggregator.Dispose();
 
             view.Properties.RemoveProperty(typeof(EditDocumentationAdornmentTagger));
         }
@@ -64,20 +59,22 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 
             ITextSnapshot snapshot = spans[0].Snapshot;
 
-            var colorTags = _highlightTagger.GetTags(spans);
+            var commentTags = _tagAggregator.GetTags(spans);
 
-            foreach (IMappingTagSpan<DocumentedCodeHighlighterTag> dataTagSpan in colorTags)
+            foreach (IMappingTagSpan<DocumentedCodeHighlighterTag> commentTag in commentTags)
             {
-                NormalizedSnapshotSpanCollection colorTagSpans = dataTagSpan.Span.GetSpans(snapshot);
+                NormalizedSnapshotSpanCollection colorTagSpans = commentTag.Span.GetSpans(snapshot);
 
                 // Ignore data tags that are split by projection.
                 // This is theoretically possible but unlikely in current scenarios.
                 if (colorTagSpans.Count != 1)
                     continue;
+                if (commentTag.Span.GetSpan().Length == 0)
+                    continue;
 
                 SnapshotSpan adornmentSpan = new SnapshotSpan(colorTagSpans[0].End, 0);
 
-                yield return Tuple.Create(adornmentSpan, (PositionAffinity?)PositionAffinity.Successor, dataTagSpan.Tag);
+                yield return Tuple.Create(adornmentSpan, (PositionAffinity?)PositionAffinity.Successor, commentTag.Tag);
             }
         }
 
