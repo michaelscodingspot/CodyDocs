@@ -54,10 +54,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornment.cs" />
     <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornmentTagger.cs" />
     <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornmentTaggerProvider.cs" />
     <Compile Include="EditorUI\AdornmentSupport\IntraTextAdornmentTagger.cs" />
+    <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\YellowNotepadAdornment.xaml.cs">
+      <DependentUpon>YellowNotepadAdornment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\DocumentLifetimeManager.cs" />
     <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
@@ -80,12 +82,14 @@
     </Compile>
     <Compile Include="Models\FileDocumentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Consts.cs" />
+    <Compile Include="Utils\Consts.cs" />
     <Compile Include="Services\DocumentationFileHandler.cs" />
     <Compile Include="Services\DocumentationFileSerializer.cs" />
     <Compile Include="Models\TextViewPosition.cs" />
     <Compile Include="Models\TextViewSelection.cs" />
     <Compile Include="Services\VisualStudioServices.cs" />
+    <Compile Include="Utils\BufferExtensions.cs" />
+    <Compile Include="Utils\DocumentationFragmentExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -109,6 +113,7 @@
     <Content Include="Resources\DocumentCodeSpanCommand.png" />
     <Content Include="Resources\EnableDisableCodyDocsCommand.png" />
     <Content Include="Resources\vmark.png" />
+    <Resource Include="Resources\yellow_notepad.png" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +252,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\AddDocumentationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditorUI\DocumentedCodeEditIntraTextAdornment\YellowNotepadAdornment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

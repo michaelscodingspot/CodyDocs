@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodyDocs.Services
+namespace CodyDocs.Utils
 {
     public class Consts
     {

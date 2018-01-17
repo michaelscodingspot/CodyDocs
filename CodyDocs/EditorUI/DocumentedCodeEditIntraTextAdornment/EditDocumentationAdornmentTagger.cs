@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using CodyDocs.EditorUI.AdornmentSupport;
 using CodyDocs.EditorUI.DocumentedCodeHighlighter;
+using CodyDocs.Events;
+using CodyDocs.Utils;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -9,21 +11,40 @@ using Microsoft.VisualStudio.Text.Tagging;
 namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 {
 
-    internal sealed class EditDocumentationAdornmentTagger : IntraTextAdornmentTagger<DocumentedCodeHighlighterTag, EditDocumentationAdornment>
+    internal sealed class EditDocumentationAdornmentTagger : IntraTextAdornmentTagger<DocumentedCodeHighlighterTag, YellowNotepadAdornment>
     {
-        internal static ITagger<IntraTextAdornmentTag> GetTagger(IWpfTextView view, Lazy<ITagAggregator<DocumentedCodeHighlighterTag>> highlightTagger)
+        internal static ITagger<IntraTextAdornmentTag> GetTagger(IWpfTextView view, IEventAggregator eventAggregator,
+            Lazy<ITagAggregator<DocumentedCodeHighlighterTag>> highlightTagger)
         {
             return view.Properties.GetOrCreateSingletonProperty<EditDocumentationAdornmentTagger>(
-                () => new EditDocumentationAdornmentTagger(view, highlightTagger.Value));
+                () => new EditDocumentationAdornmentTagger(view, eventAggregator, highlightTagger.Value));
         }
 
 
         private ITagAggregator<DocumentedCodeHighlighterTag> _highlightTagger;
+        private DelegateListener<DocumentationAddedEvent> _documentationAddedListener;
+        private ITextBuffer _buffer;
+        private string _codyDocsFilename;
 
-        private EditDocumentationAdornmentTagger(IWpfTextView view, ITagAggregator<DocumentedCodeHighlighterTag> highlightTagger)
+        private EditDocumentationAdornmentTagger(IWpfTextView view, IEventAggregator eventAggregator, ITagAggregator<DocumentedCodeHighlighterTag> highlightTagger)
             : base(view)
         {
             this._highlightTagger = highlightTagger;
+            _documentationAddedListener = new DelegateListener<DocumentationAddedEvent>(OnDocumentationAdded);
+            _buffer = view.TextBuffer;
+            _codyDocsFilename = view.TextBuffer.GetCodyDocsFileName();
+            eventAggregator.AddListener<DocumentationAddedEvent>(_documentationAddedListener);
+        }
+
+        private void OnDocumentationAdded(DocumentationAddedEvent e)
+        {
+            string filepath = e.Filepath;
+            if (filepath == _codyDocsFilename)
+            {
+                var span = e.DocumentationFragment.GetSpan();
+                InvokeTagsChanged(this, new SnapshotSpanEventArgs(
+                    new SnapshotSpan(_buffer.CurrentSnapshot, span)));
+            }
         }
 
         public void Dispose()
@@ -54,20 +75,20 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
                 if (colorTagSpans.Count != 1)
                     continue;
 
-                SnapshotSpan adornmentSpan = new SnapshotSpan(colorTagSpans[0].Start, 0);
+                SnapshotSpan adornmentSpan = new SnapshotSpan(colorTagSpans[0].End, 0);
 
                 yield return Tuple.Create(adornmentSpan, (PositionAffinity?)PositionAffinity.Successor, dataTagSpan.Tag);
             }
         }
 
-        protected override EditDocumentationAdornment CreateAdornment(DocumentedCodeHighlighterTag dataTag, SnapshotSpan span)
+        protected override YellowNotepadAdornment CreateAdornment(DocumentedCodeHighlighterTag dataTag, SnapshotSpan span)
         {
-            return new EditDocumentationAdornment(dataTag);
+            return new YellowNotepadAdornment();
         }
 
-        protected override bool UpdateAdornment(EditDocumentationAdornment adornment, DocumentedCodeHighlighterTag dataTag)
+        protected override bool UpdateAdornment(YellowNotepadAdornment adornment, DocumentedCodeHighlighterTag dataTag)
         {
-            adornment.Update(dataTag);
+            //adornment.Update(dataTag);
             return true;
         }
     }

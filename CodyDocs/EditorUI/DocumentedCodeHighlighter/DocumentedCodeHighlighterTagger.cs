@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using CodyDocs.Models;
+using CodyDocs.Utils;
 
 namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
@@ -48,18 +49,10 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             var currentSnapshot = _buffer.CurrentSnapshot;
             foreach (var fragment in documentation.Fragments)
             {
-                Span span = GetSpanFromDocumentionFragment(fragment);
+                Span span = fragment.GetSpan();
                 var trackingSpan = currentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
                 _trackingSpans.Add(trackingSpan, fragment.Documentation);
             }
-        }
-
-        private static Span GetSpanFromDocumentionFragment(Models.DocumentationFragment fragment)
-        {
-            int startPos = fragment.Selection.StartPosition;
-            int length = fragment.Selection.EndPosition - fragment.Selection.StartPosition;
-            var span = new Span(startPos, length);
-            return span;
         }
 
         private void OnDocumentSaved(DocumentSavedEvent documentSavedEvent)
@@ -108,7 +101,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             string filepath = e.Filepath;
             if (filepath == CodyDocsFilename)
             {
-                var span = GetSpanFromDocumentionFragment(e.DocumentationFragment);
+                var span = e.DocumentationFragment.GetSpan();
                 var trackingSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeExclusive);
                 _trackingSpans.Add(trackingSpan, e.DocumentationFragment.Documentation);
                 TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(

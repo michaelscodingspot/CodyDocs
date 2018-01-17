@@ -210,6 +210,11 @@ namespace CodyDocs.EditorUI.AdornmentSupport
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
+        protected void InvokeTagsChanged(object sender, SnapshotSpanEventArgs args)
+        {
+            TagsChanged?.Invoke(sender, args);
+        }
+
         private class Comparer : IEqualityComparer<Tuple<SnapshotSpan, PositionAffinity?, TData>>
         {
             public bool Equals(Tuple<SnapshotSpan, PositionAffinity?, TData> x, Tuple<SnapshotSpan, PositionAffinity?, TData> y)
