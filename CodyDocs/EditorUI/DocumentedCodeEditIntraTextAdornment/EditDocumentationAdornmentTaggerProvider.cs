@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows;
 using CodyDocs.EditorUI.DocumentedCodeHighlighter;
 using CodyDocs.Events;
 using Microsoft.VisualStudio.Text;
@@ -15,18 +16,10 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
     [TagType(typeof(IntraTextAdornmentTag))]
     internal sealed class EditDocumentationAdornmentTaggerProvider : IViewTaggerProvider
     {
-        //[Import]
-        //internal IBufferTagAggregatorFactoryService BufferTagAggregatorFactoryService;
-
             
 #pragma warning disable 649 // "field never assigned to" -- field is set by MEF.
         [Import]
         internal IViewTagAggregatorFactoryService ViewTagAggregatorFactoryService;
-#pragma warning restore 649
-
-#pragma warning disable 649 // "field never assigned to" -- field is set by MEF.
-        [Import]
-        private IEventAggregator EventAggregator;
 #pragma warning restore 649
 
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
@@ -40,12 +33,11 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
             if (buffer != textView.TextBuffer)
                 return null;
 
-            return EditDocumentationAdornmentTagger.GetTagger(
-                (IWpfTextView)textView, EventAggregator,
-                new Lazy<ITagAggregator<DocumentedCodeHighlighterTag>>(
-                    //() => BufferTagAggregatorFactoryService.CreateTagAggregator<DocumentedCodeHighlighterTag>(textView.TextBuffer)))
-                    () => ViewTagAggregatorFactoryService.CreateTagAggregator<DocumentedCodeHighlighterTag>(textView)))
-                as ITagger<T>;
+            ITagAggregator< DocumentedCodeHighlighterTag> tagAggregator = 
+                ViewTagAggregatorFactoryService.CreateTagAggregator<DocumentedCodeHighlighterTag>(textView);
+
+            return textView.Properties.GetOrCreateSingletonProperty(() => 
+                new EditDocumentationAdornmentTagger((IWpfTextView)textView, tagAggregator) as ITagger<T>);
         }
     }
 }
