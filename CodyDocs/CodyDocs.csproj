@@ -91,6 +91,7 @@
     <Compile Include="Services\VisualStudioServices.cs" />
     <Compile Include="Utils\BufferExtensions.cs" />
     <Compile Include="Utils\DocumentationFragmentExtensions.cs" />
+    <Compile Include="Utils\WPFUtils\PopupPlacement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

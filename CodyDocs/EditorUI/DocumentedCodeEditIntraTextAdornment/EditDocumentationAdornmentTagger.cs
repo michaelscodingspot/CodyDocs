@@ -10,11 +10,8 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 {
-    class AdditionalData 
-    {
-    }
-
-    internal sealed class EditDocumentationAdornmentTagger : IntraTextAdornmentTagger<AdditionalData, YellowNotepadAdornment>
+    
+    internal sealed class EditDocumentationAdornmentTagger : IntraTextAdornmentTagger<DocumentedCodeHighlighterTag, YellowNotepadAdornment>
     {
         private ITagAggregator<DocumentedCodeHighlighterTag> _tagAggregator;
         private ITextBuffer _buffer;
@@ -47,7 +44,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
         // To produce adornments that don't obscure the text, the adornment tags
         // should have zero length spans. Overriding this method allows control
         // over the tag spans.
-        protected override IEnumerable<Tuple<SnapshotSpan, PositionAffinity?, AdditionalData>> GetAdornmentData(NormalizedSnapshotSpanCollection spans)
+        protected override IEnumerable<Tuple<SnapshotSpan, PositionAffinity?, DocumentedCodeHighlighterTag>> GetAdornmentData(NormalizedSnapshotSpanCollection spans)
         {
             if (spans.Count == 0)
                 yield break;
@@ -68,17 +65,21 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
                     continue;
 
                 SnapshotSpan adornmentSpan = new SnapshotSpan(colorTagSpans[0].End, 0);
+                
 
-                yield return Tuple.Create(adornmentSpan, (PositionAffinity?)PositionAffinity.Successor, new AdditionalData());
+                yield return Tuple.Create(adornmentSpan, (PositionAffinity?)PositionAffinity.Successor, commentTag.Tag);
             }
         }
 
-        protected override YellowNotepadAdornment CreateAdornment(AdditionalData additionalData, SnapshotSpan span)
+        protected override YellowNotepadAdornment CreateAdornment(DocumentedCodeHighlighterTag additionalData, SnapshotSpan span)
         {
-            return new YellowNotepadAdornment();
+            return new YellowNotepadAdornment()
+            {
+                DocumentationText = additionalData.DocumentationFragmentText
+            };
         }
 
-        protected override bool UpdateAdornment(YellowNotepadAdornment adornment, AdditionalData additionalData)
+        protected override bool UpdateAdornment(YellowNotepadAdornment adornment, DocumentedCodeHighlighterTag additionalData)
         {
             //adornment.Update(additionalData);
             return false;

@@ -131,7 +131,8 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 if (spans.Any(sp => spanInCurrentSnapshot.IntersectsWith(sp)))
                 {
                     var snapshotSpan = new SnapshotSpan(relevantSnapshot, spanInCurrentSnapshot);
-                    tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, new DocumentedCodeHighlighterTag()));
+                    var documentationText = _trackingSpans[trackingSpan];
+                    tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, new DocumentedCodeHighlighterTag(documentationText)));
                 }
                 
             }

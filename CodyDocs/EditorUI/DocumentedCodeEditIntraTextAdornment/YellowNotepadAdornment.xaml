@@ -5,8 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Image Source="../../Resources/yellow_notepad.png" Margin="3 0 1 0"/>
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="YellowNotepadAdornmentUserControl">
+    <Grid>
+    <Image x:Name="AdornmentImage"
+        Source="../../Resources/yellow_notepad.png" Margin="3 0 1 0"
+           MouseEnter="OnMouseEnterImage"
+           MouseLeave="OnMouseLeaveImage"/>
+        <Popup x:Name="HoverPopup"
+               
+            PlacementTarget="{Binding ElementName=AdornmentImage}"
+               Placement="Custom"
+               Focusable="False"
+               MouseLeave="OnMouseLeavePopup"
+               IsOpen="False" 
+               StaysOpen="True"
+               Width="350">
+            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="1" 
+                    Padding="5" >
+
+                <TextBlock Text="{Binding DocumentationText, ElementName=YellowNotepadAdornmentUserControl}"
+                           TextWrapping="Wrap"
+                           ></TextBlock>
+            </Border>
+            
+        </Popup>
+    </Grid>
+        
+        
     
 
 </UserControl>
