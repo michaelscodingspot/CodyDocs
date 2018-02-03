@@ -1,4 +1,9 @@
-﻿using CodyDocs.Utils.WPFUtils;
+﻿using CodyDocs.Dialogs;
+using CodyDocs.EditorUI.DocumentedCodeHighlighter;
+using CodyDocs.Events;
+using CodyDocs.Services;
+using CodyDocs.Utils.WPFUtils;
+using Microsoft.VisualStudio.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +27,36 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
     /// </summary>
     public partial class YellowNotepadAdornment : UserControl
     {
+        public IEventAggregator EventAggregator { get; }
 
 
-        public string DocumentationText
+
+        public DocumentedCodeHighlighterTag DocumentationTag
         {
-            get { return (string)GetValue(DocumentationTextProperty); }
-            set { SetValue(DocumentationTextProperty, value); }
+            get { return (DocumentedCodeHighlighterTag)GetValue(DocumentationTagProperty); }
+            set { SetValue(DocumentationTagProperty, value); }
         }
-        public static readonly DependencyProperty DocumentationTextProperty =
-            DependencyProperty.Register("DocumentationText", typeof(string), typeof(YellowNotepadAdornment), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty DocumentationTagProperty =
+            DependencyProperty.Register("DocumentationTag", typeof(DocumentedCodeHighlighterTag), typeof(YellowNotepadAdornment), new PropertyMetadata(null));
+
+
+        public ITextBuffer Buffer
+        {
+            get { return (ITextBuffer)GetValue(BufferProperty); }
+            set { SetValue(BufferProperty, value); }
+        }
+        public static readonly DependencyProperty BufferProperty =
+            DependencyProperty.Register("Buffer", typeof(ITextBuffer), typeof(YellowNotepadAdornment), new PropertyMetadata(null));
+
+
+
+        //public string DocumentationText
+        //{
+        //    get { return (string)GetValue(DocumentationTextProperty); }
+        //    set { SetValue(DocumentationTextProperty, value); }
+        //}
+        //public static readonly DependencyProperty DocumentationTextProperty =
+        //    DependencyProperty.Register("DocumentationText", typeof(string), typeof(YellowNotepadAdornment), new PropertyMetadata(string.Empty));
 
 
 
@@ -38,6 +64,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
         {
             InitializeComponent();
             SetPopupPlacementCallbacks();
+            EventAggregator = VisualStudioServices.ComponentModel.GetService<IEventAggregator>();
         }
 
         private void SetPopupPlacementCallbacks()
@@ -66,6 +93,19 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
         private void OnMouseLeavePopup(object sender, MouseEventArgs e)
         {
             ClosePopupIfNecessary();
+        }
+
+        private void OnClick(object sender, MouseButtonEventArgs e)
+        {
+            var documentationControl = new AddDocumentationWindow();
+            var vm = new EditDocumentationViewModel(DocumentationTag.TrackingSpan.GetText(Buffer.CurrentSnapshot), DocumentationTag.DocumentationFragmentText);
+            documentationControl.DataContext = vm;
+            documentationControl.ShowDialog();
+            if (documentationControl.DialogResult.HasValue && documentationControl.DialogResult.Value)
+            {
+                var newDocumentation = vm.DocumentationText;
+                EventAggregator.SendMessage<DocumentationUpdatedEvent>(new DocumentationUpdatedEvent(DocumentationTag.TrackingSpan, newDocumentation));
+            }
         }
     }
 }

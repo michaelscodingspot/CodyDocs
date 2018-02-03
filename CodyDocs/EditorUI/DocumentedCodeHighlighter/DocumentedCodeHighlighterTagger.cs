@@ -17,14 +17,18 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
         private ITextBuffer _buffer;
         private IEventAggregator _eventAggregator;
         private readonly DelegateListener<DocumentationAddedEvent> _documentationAddedListener;
+        private DelegateListener<DocumentSavedEvent> _documentSavedListener;
+        private DelegateListener<DocumentationUpdatedEvent> _documentationUpdatedListener;
+        private readonly DelegateListener<DocumentClosedEvent> _documentatiClosedListener;
         private readonly string _filename;
+
         private string CodyDocsFilename { get {  return _filename + Consts.CODY_DOCS_EXTENSION; } }
 
         /// <summary>
         /// Key is the tracking span. Value is the documentation for that span.
         /// </summary>
         Dictionary<ITrackingSpan, string> _trackingSpans;
-        private DelegateListener<DocumentSavedEvent> _documentSavedListener;
+        
 
         public DocumentedCodeHighlighterTagger(ITextView textView, ITextBuffer buffer, IEventAggregator eventAggregator)
         {
@@ -37,8 +41,29 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             _eventAggregator.AddListener<DocumentationAddedEvent>(_documentationAddedListener);
             _documentSavedListener = new DelegateListener<DocumentSavedEvent>(OnDocumentSaved);
             _eventAggregator.AddListener<DocumentSavedEvent>(_documentSavedListener);
+            _documentatiClosedListener = new DelegateListener<DocumentClosedEvent>(OnDocumentatClosed);
+            _eventAggregator.AddListener<DocumentClosedEvent>(_documentatiClosedListener);
+
+            _documentationUpdatedListener = new DelegateListener<DocumentationUpdatedEvent>(OnDocumentationUpdated);
+            _eventAggregator.AddListener<DocumentationUpdatedEvent>(_documentationUpdatedListener);
+
+            
+            //TODO: Add event aggregator listener to documentation changed on tracking Span X
+            //TODO: Add event aggregator listener to documentation deleted on tracking Span X
 
             CreateTrackingSpans();
+
+        }
+
+        private void OnDocumentatClosed(DocumentClosedEvent obj)
+        {
+            if (obj.DocumentFullName == _filename)
+            {
+                _eventAggregator.RemoveListener(_documentationAddedListener);
+                _eventAggregator.RemoveListener(_documentSavedListener);
+                _eventAggregator.RemoveListener(_documentationUpdatedListener);
+                _eventAggregator.RemoveListener(_documentatiClosedListener);
+            }
 
         }
 
@@ -62,6 +87,17 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 RemoveEmptyTrackingSpans();
                 FileDocumentation fileDocumentation = CreateFileDocumentationFromTrackingSpans();
                 DocumentationFileSerializer.Serialize(CodyDocsFilename, fileDocumentation);
+            }
+        }
+        
+        private void OnDocumentationUpdated(DocumentationUpdatedEvent ev)
+        {
+            if (_trackingSpans.ContainsKey(ev.TrackingSpan))
+            {
+                _trackingSpans[ev.TrackingSpan] = ev.NewDocumentation;
+                TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(
+                    new SnapshotSpan(_buffer.CurrentSnapshot, ev.TrackingSpan.GetSpan(_buffer.CurrentSnapshot))));
+                //var document = _buffer.GetRelatedDocuments
             }
         }
 
@@ -132,7 +168,8 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 {
                     var snapshotSpan = new SnapshotSpan(relevantSnapshot, spanInCurrentSnapshot);
                     var documentationText = _trackingSpans[trackingSpan];
-                    tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, new DocumentedCodeHighlighterTag(documentationText)));
+                    tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, 
+                        new DocumentedCodeHighlighterTag(documentationText, trackingSpan, _buffer)));
                 }
                 
             }

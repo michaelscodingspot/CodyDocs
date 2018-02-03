@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 using EnvDTE;
 //using Microsoft.VisualStudio.OLE.Interop;
 using System.Diagnostics;
+using CodyDocs.Dialogs;
 
 namespace CodyDocs
 {
@@ -98,7 +99,8 @@ namespace CodyDocs
 
         private void ShowAddDocumentationWindow(string activeDocumentPath, TextViewSelection selection)
         {
-            var documentationControl = new AddDocumentationWindow(activeDocumentPath, selection);
+            var documentationControl = new AddDocumentationWindow();
+            documentationControl.DataContext = new EditDocumentationViewModel(activeDocumentPath, selection);
             documentationControl.ShowDialog();
         }
 

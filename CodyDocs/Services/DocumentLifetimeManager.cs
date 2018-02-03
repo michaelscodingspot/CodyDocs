@@ -21,6 +21,12 @@ namespace CodyDocs.Services
             _documentEvents = _events.DocumentEvents;
 
             _documentEvents.DocumentSaved += OnDocumentSaved;
+            _documentEvents.DocumentClosing += OnDocumentClosing;
+        }
+
+        private static void OnDocumentClosing(Document document)
+        {
+            EventAggregator.Value.SendMessage<DocumentClosedEvent>(new DocumentClosedEvent(document.FullName));
         }
 
         private static void OnDocumentSaved(Document document)

@@ -54,6 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\EditDocumentationViewModel.cs" />
     <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornmentTagger.cs" />
     <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\EditDocumentationAdornmentTaggerProvider.cs" />
     <Compile Include="EditorUI\AdornmentSupport\IntraTextAdornmentTagger.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Utils\BufferExtensions.cs" />
     <Compile Include="Utils\DocumentationFragmentExtensions.cs" />
     <Compile Include="Utils\WPFUtils\PopupPlacement.cs" />
+    <Compile Include="Utils\WPFUtils\RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

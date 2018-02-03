@@ -1,22 +1,10 @@
-﻿using CodyDocs.Events;
+﻿using CodyDocs.Dialogs;
+using CodyDocs.Events;
 using CodyDocs.Models;
 using CodyDocs.Services;
 using CodyDocs.Utils;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CodyDocs
 {
@@ -25,61 +13,29 @@ namespace CodyDocs
     /// </summary>
     public partial class AddDocumentationWindow
     {
-        public IEventAggregator EventAggregator { get; set; }
-        private string _documentPath;
-        private TextViewSelection _selectionText;
-
-        public AddDocumentationWindow(string documentPath, TextViewSelection selection)
+        public AddDocumentationWindow()
         {
             InitializeComponent();
-            this._documentPath = documentPath;
-            this._selectionText = selection;
-            EventAggregator = VisualStudioServices.ComponentModel.GetService<IEventAggregator>();
             this.Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.SelectionTextBox.Text = _selectionText.Text;
             DocumentationTextBox.Focus();
+            RegisterToViewModelEvents();
         }
 
-        private void OnCancel(object sender, RoutedEventArgs e)
+        private void RegisterToViewModelEvents()
         {
-            this.Close();
-        }
-
-        private void OnSave(object sender, RoutedEventArgs e)
-        {
-            if (this.DocumentationTextBox.Text.Trim() == "")
+            var vm = (DataContext as EditDocumentationViewModel);
+            vm.CloseRequest += (res) =>
             {
-                MessageBox.Show("Documentation can't be empty.");
-                return;
-            }
-
-            var newDocFragment = new DocumentationFragment()
-            {
-                Documentation = this.DocumentationTextBox.Text,
-                Selection = this._selectionText
-            };
-            try
-            {
-                string filepath = this._documentPath + Consts.CODY_DOCS_EXTENSION;
-                DocumentationFileHandler.AddDocumentationFragment(newDocFragment, filepath);
-                MessageBox.Show("Documentation added successfully.");
-                EventAggregator.SendMessage<DocumentationAddedEvent>(
-                    new DocumentationAddedEvent()
-                    {
-                        Filepath = filepath,
-                        DocumentationFragment = newDocFragment
-                    });
+                this.DialogResult = res;
                 this.Close();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Documentation add failed. Exception: " + ex.ToString());
-            }
-
+            };
         }
+        
+        
+
     }
 }

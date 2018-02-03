@@ -13,7 +13,7 @@
              Padding="5"
              WindowStyle="ToolWindow"
              Title="CodyDocs"
-                        
+             
              >
     <!--Title="Add documentation with CodyDocs"-->
     <Border Margin="5" >
@@ -28,14 +28,17 @@
             <TextBlock Text="Add documentation for: " Margin="5"/>
             <TextBox Grid.Row="1" x:Name="SelectionTextBox" Margin="5" IsReadOnly="True" MaxHeight="100" 
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Text="{Binding SelectionText, Mode=OneWay}"
                      />
             <TextBlock Grid.Row="2" Margin="5">Documentation:</TextBlock>
             <TextBox Grid.Row="3" x:Name="DocumentationTextBox"
                      AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Text="{Binding DocumentationText}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="4">
-                <Button Margin="5" Padding="5" Click="OnSave">Save</Button>
-                <Button Margin="5" Padding="5" Click="OnCancel">Cancel</Button>
+                <Button Margin="5" Padding="5" Command="{Binding SaveCommand}" >Save</Button> <!--Click="OnSave"-->
+                <!--<Button Margin="5" Padding="5" Click="OnDelete" Visibility="{Binding IsEditMode}">Delete</Button>-->
+                <Button Margin="5" Padding="5" Command="{Binding CancelCommand}">Cancel</Button> <!--Click="OnCancel"-->
             </StackPanel>
         </Grid>
     </Border>

@@ -11,7 +11,9 @@
     <Image x:Name="AdornmentImage"
         Source="../../Resources/yellow_notepad.png" Margin="3 0 1 0"
            MouseEnter="OnMouseEnterImage"
-           MouseLeave="OnMouseLeaveImage"/>
+           MouseLeave="OnMouseLeaveImage"
+           Cursor="Hand"
+           MouseLeftButtonUp="OnClick"/>
         <Popup x:Name="HoverPopup"
                
             PlacementTarget="{Binding ElementName=AdornmentImage}"
@@ -24,7 +26,7 @@
             <Border Background="LightGray" BorderBrush="Gray" BorderThickness="1" 
                     Padding="5" >
 
-                <TextBlock Text="{Binding DocumentationText, ElementName=YellowNotepadAdornmentUserControl}"
+                <TextBlock Text="{Binding DocumentationTag.DocumentationFragmentText, ElementName=YellowNotepadAdornmentUserControl}"
                            TextWrapping="Wrap"
                            ></TextBlock>
             </Border>

@@ -75,7 +75,8 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
         {
             return new YellowNotepadAdornment()
             {
-                DocumentationText = additionalData.DocumentationFragmentText
+                DocumentationTag = additionalData,
+                Buffer = _buffer
             };
         }
 

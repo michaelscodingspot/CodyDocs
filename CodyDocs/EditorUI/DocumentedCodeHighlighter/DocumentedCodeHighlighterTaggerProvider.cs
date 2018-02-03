@@ -34,7 +34,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             if (textView.TextBuffer != buffer)
                 return null;
 
-            return buffer.Properties.GetOrCreateSingletonProperty(() =>
+            return buffer.Properties.GetOrCreateSingletonProperty("DocumentedCodeHighlighterTagger", () =>
                 new DocumentedCodeHighlighterTagger(textView, buffer, _eventAggregator) as ITagger<T>);
         }
     }
