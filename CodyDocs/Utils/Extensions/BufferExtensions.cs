@@ -1,4 +1,6 @@
 ﻿using CodyDocs.Services;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.Text;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,12 @@ namespace CodyDocs.Utils
         {
             var filename = GetFileName(textBuffer);
             return filename + Consts.CODY_DOCS_EXTENSION;
+        }
+
+        public static Document GetDocument(this ITextBuffer textBuffer)
+        {
+            return textBuffer.GetRelatedDocuments().FirstOrDefault();
+
         }
 
     }

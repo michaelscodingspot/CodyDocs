@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using CodyDocs.Models;
 using CodyDocs.Utils;
+using EnvDTE;
 
 namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
@@ -97,8 +98,15 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 _trackingSpans[ev.TrackingSpan] = ev.NewDocumentation;
                 TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(
                     new SnapshotSpan(_buffer.CurrentSnapshot, ev.TrackingSpan.GetSpan(_buffer.CurrentSnapshot))));
-                //var document = _buffer.GetRelatedDocuments
+                MarkDocumentAsUnsaved();
             }
+        }
+
+        private void MarkDocumentAsUnsaved()
+        {
+            Document document = DocumentLifetimeManager.GetDocument(_filename);
+            if (document != null)
+                document.Saved = false;
         }
 
         private void RemoveEmptyTrackingSpans()
@@ -142,6 +150,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 _trackingSpans.Add(trackingSpan, e.DocumentationFragment.Documentation);
                 TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(
                     new SnapshotSpan(_buffer.CurrentSnapshot, span)));
+                MarkDocumentAsUnsaved();
             }
         }
 

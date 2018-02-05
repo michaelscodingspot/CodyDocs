@@ -32,13 +32,13 @@ namespace CodyDocs.Dialogs
             EventAggregator = VisualStudioServices.ComponentModel.GetService<IEventAggregator>();
         }
 
-        public EditDocumentationViewModel(string documentPath, TextViewSelection selection) : base()
+        public EditDocumentationViewModel(string documentPath, TextViewSelection selection) : this()
         {
             this._documentPath = documentPath;
             this._selection= selection;
         }
 
-        public EditDocumentationViewModel(string selectionText, string documentationText) : base()
+        public EditDocumentationViewModel(string selectionText, string documentationText) : this()
         {
             _existingDocumentation = true;
             _selectionText = selectionText;

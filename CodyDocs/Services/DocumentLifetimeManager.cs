@@ -12,9 +12,11 @@ namespace CodyDocs.Services
         private static Lazy<IEventAggregator> EventAggregator = 
             new Lazy<IEventAggregator>(()=>VisualStudioServices.ComponentModel.GetService<IEventAggregator>());
 
+        private static EnvDTE80.DTE2 applicationObject = null;
+
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            EnvDTE80.DTE2 applicationObject = serviceProvider.GetService(typeof(SDTE)) as EnvDTE80.DTE2;//EnvDTE80.DTE2;
+            applicationObject = serviceProvider.GetService(typeof(SDTE)) as EnvDTE80.DTE2;//EnvDTE80.DTE2;
 
             //Need to keep strong reference to _events and _documentEvents otherwise they will be garbage collected
             _events = applicationObject.Events;
@@ -32,6 +34,19 @@ namespace CodyDocs.Services
         private static void OnDocumentSaved(Document document)
         {
             EventAggregator.Value.SendMessage<DocumentSavedEvent>(new DocumentSavedEvent(document.FullName));
+        }
+
+        public static Document GetDocument(string forPath)
+        {
+            foreach (var item in applicationObject.Documents)
+            {
+                var doc = item as Document;
+                if (doc.FullName.Equals(forPath, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return doc;
+                }
+            }
+            return null;
         }
     }
 }
