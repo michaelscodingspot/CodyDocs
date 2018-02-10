@@ -10,36 +10,64 @@
              Height="400"
              Background="LightYellow"
              x:Name="This"
-             Padding="5"
-             WindowStyle="ToolWindow"
+             WindowStyle="SingleBorderWindow"
+
              Title="CodyDocs"
              
              >
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="FontFamily" Value="Open Sans"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Open Sans"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Open Sans"/>
+            <Setter Property="Padding" Value="2 4"/>
+        </Style>
+    </Window.Resources>
     <!--Title="Add documentation with CodyDocs"-->
-    <Border Margin="5" >
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Add documentation for: " Margin="5"/>
-            <TextBox Grid.Row="1" x:Name="SelectionTextBox" Margin="5" IsReadOnly="True" MaxHeight="100" 
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Text="{Binding SelectionText, Mode=OneWay}"
-                     />
-            <TextBlock Grid.Row="2" Margin="5">Documentation:</TextBlock>
-            <TextBox Grid.Row="3" x:Name="DocumentationTextBox"
-                     AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Text="{Binding DocumentationText}"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="4">
-                <Button Margin="5" Padding="5" Command="{Binding SaveCommand}" >Save</Button> <!--Click="OnSave"-->
-                <!--<Button Margin="5" Padding="5" Click="OnDelete" Visibility="{Binding IsEditMode}">Delete</Button>-->
-                <Button Margin="5" Padding="5" Command="{Binding CancelCommand}">Cancel</Button> <!--Click="OnCancel"-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!--<Border Background="#FF9180a8" Height="40" Padding="5">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <Image Source="../Resources/yellow_notepad.png" Margin="5"/>
+                <TextBlock Text="CodyDocs Documentation" Margin="5" Foreground="White"></TextBlock>
             </StackPanel>
-        </Grid>
-    </Border>
+        </Border>-->
+        <Border Grid.Row="1" Background="#FFE1E1E1" Padding="5">
+            <StackPanel >
+                <TextBlock Text="Documentation for: " Margin="5" />
+                <TextBox Grid.Row="1" x:Name="SelectionTextBox" Margin="5" IsReadOnly="True" MaxHeight="100" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Text="{Binding SelectionText, Mode=OneWay}"
+                         />
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="2" Background="#F7F7D5" Padding="5">
+            <StackPanel >
+                <TextBlock Margin="5">Documentation:</TextBlock>
+                <TextBox Grid.Row="3" x:Name="DocumentationTextBox"
+                         AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Text="{Binding DocumentationText}"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="3" Background="#FFE1E1E1" Padding="5">
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="5" Padding="5" Command="{Binding SaveCommand}" >Save</Button>
+                <!--Click="OnSave"-->
+                <!--<Button Margin="5" Padding="5" Click="OnDelete" Visibility="{Binding IsEditMode}">Delete</Button>-->
+                <Button Margin="5" Padding="5" Command="{Binding CancelCommand}">Cancel</Button>
+                <!--Click="OnCancel"-->
+            </StackPanel>
+        </Border>
+    </Grid>
 </local:BaseDialogWindow>

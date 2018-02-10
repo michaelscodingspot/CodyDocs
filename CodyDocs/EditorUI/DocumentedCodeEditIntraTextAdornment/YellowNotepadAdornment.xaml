@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             x:Name="YellowNotepadAdornmentUserControl">
+             x:Name="YellowNotepadAdornmentUserControl"
+             Padding="0">
     <Grid>
     <Image x:Name="AdornmentImage"
         Source="../../Resources/yellow_notepad.png" Margin="3 0 1 0"
@@ -15,7 +16,6 @@
            Cursor="Hand"
            MouseLeftButtonUp="OnClick"/>
         <Popup x:Name="HoverPopup"
-               
             PlacementTarget="{Binding ElementName=AdornmentImage}"
                Placement="Custom"
                Focusable="False"
@@ -23,8 +23,8 @@
                IsOpen="False" 
                StaysOpen="True"
                Width="350">
-            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="1" 
-                    Padding="5" >
+            <Border Background="LightGray" BorderBrush="#EFEFEF" BorderThickness="1" 
+                    Padding="3 2 3 4" >
 
                 <TextBlock Text="{Binding DocumentationTag.DocumentationFragmentText, ElementName=YellowNotepadAdornmentUserControl}"
                            TextWrapping="Wrap"
