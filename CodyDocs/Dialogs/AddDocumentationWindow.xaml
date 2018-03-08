@@ -16,8 +16,10 @@
              
              >
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        
         <Style TargetType="Button">
-            <Setter Property="Width" Value="150"/>
+            <Setter Property="Width" Value="130"/>
             <Setter Property="FontFamily" Value="Open Sans"/>
         </Style>
         <Style TargetType="TextBlock">
@@ -63,10 +65,9 @@
         <Border Grid.Row="3" Background="#FFE1E1E1" Padding="5">
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Margin="5" Padding="5" Command="{Binding SaveCommand}" >Save</Button>
-                <!--Click="OnSave"-->
-                <!--<Button Margin="5" Padding="5" Click="OnDelete" Visibility="{Binding IsEditMode}">Delete</Button>-->
+                <Button Margin="5" Padding="5" Command="{Binding DeleteCommand}" 
+                        Visibility="{Binding IsExistingDocumentation, Converter={StaticResource BoolToVis}}">Delete</Button>
                 <Button Margin="5" Padding="5" Command="{Binding CancelCommand}">Cancel</Button>
-                <!--Click="OnCancel"-->
             </StackPanel>
         </Border>
     </Grid>

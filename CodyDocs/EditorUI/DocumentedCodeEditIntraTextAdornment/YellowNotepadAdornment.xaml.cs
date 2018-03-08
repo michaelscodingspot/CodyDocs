@@ -101,10 +101,14 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
             var vm = new EditDocumentationViewModel(DocumentationTag.TrackingSpan.GetText(Buffer.CurrentSnapshot), DocumentationTag.DocumentationFragmentText);
             documentationControl.DataContext = vm;
             documentationControl.ShowDialog();
-            if (documentationControl.DialogResult.HasValue && documentationControl.DialogResult.Value)
+            if (documentationControl.Result == EditDocumentationViewModel.AddDocumentationResult.Save)
             {
                 var newDocumentation = vm.DocumentationText;
                 EventAggregator.SendMessage<DocumentationUpdatedEvent>(new DocumentationUpdatedEvent(DocumentationTag.TrackingSpan, newDocumentation));
+            }
+            else if (documentationControl.Result == EditDocumentationViewModel.AddDocumentationResult.Delete)
+            {
+                EventAggregator.SendMessage<DocumentationDeletedEvent>(new DocumentationDeletedEvent(DocumentationTag));
             }
         }
     }

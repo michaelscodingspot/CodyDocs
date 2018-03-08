@@ -22,6 +22,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
         private DelegateListener<DocumentationUpdatedEvent> _documentationUpdatedListener;
         private readonly DelegateListener<DocumentClosedEvent> _documentatiClosedListener;
         private readonly string _filename;
+        private readonly DelegateListener<DocumentationDeletedEvent> _documentationDeletedListener;
 
         private string CodyDocsFilename { get {  return _filename + Consts.CODY_DOCS_EXTENSION; } }
 
@@ -44,11 +45,12 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             _eventAggregator.AddListener<DocumentSavedEvent>(_documentSavedListener);
             _documentatiClosedListener = new DelegateListener<DocumentClosedEvent>(OnDocumentatClosed);
             _eventAggregator.AddListener<DocumentClosedEvent>(_documentatiClosedListener);
-
             _documentationUpdatedListener = new DelegateListener<DocumentationUpdatedEvent>(OnDocumentationUpdated);
             _eventAggregator.AddListener<DocumentationUpdatedEvent>(_documentationUpdatedListener);
+            _documentationDeletedListener = new DelegateListener<DocumentationDeletedEvent>(OnDocumentationDeleted);
+            _eventAggregator.AddListener<DocumentationDeletedEvent>(_documentationDeletedListener);
 
-            
+
             //TODO: Add event aggregator listener to documentation changed on tracking Span X
             //TODO: Add event aggregator listener to documentation deleted on tracking Span X
 
@@ -56,6 +58,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 
         }
 
+        
         private void OnDocumentatClosed(DocumentClosedEvent obj)
         {
             if (obj.DocumentFullName == _filename)
@@ -101,6 +104,18 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 MarkDocumentAsUnsaved();
             }
         }
+
+        private void OnDocumentationDeleted(DocumentationDeletedEvent ev)
+        {
+            if (_trackingSpans.ContainsKey(ev.Tag.TrackingSpan))
+            {
+                _trackingSpans.Remove(ev.Tag.TrackingSpan);
+                TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(
+                    new SnapshotSpan(_buffer.CurrentSnapshot, ev.Tag.TrackingSpan.GetSpan(_buffer.CurrentSnapshot))));
+                MarkDocumentAsUnsaved();
+            }
+        }
+
 
         private void MarkDocumentAsUnsaved()
         {

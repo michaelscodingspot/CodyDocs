@@ -5,6 +5,7 @@ using CodyDocs.Services;
 using CodyDocs.Utils;
 using System;
 using System.Windows;
+using static CodyDocs.Dialogs.EditDocumentationViewModel;
 
 namespace CodyDocs
 {
@@ -13,6 +14,8 @@ namespace CodyDocs
     /// </summary>
     public partial class AddDocumentationWindow
     {
+        public AddDocumentationResult Result => (DataContext as EditDocumentationViewModel).Result;
+
         public AddDocumentationWindow()
         {
             InitializeComponent();
@@ -28,9 +31,8 @@ namespace CodyDocs
         private void RegisterToViewModelEvents()
         {
             var vm = (DataContext as EditDocumentationViewModel);
-            vm.CloseRequest += (res) =>
+            vm.CloseRequest += () =>
             {
-                this.DialogResult = res;
                 this.Close();
             };
         }

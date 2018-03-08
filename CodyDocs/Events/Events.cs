@@ -1,4 +1,5 @@
-﻿using CodyDocs.Models;
+﻿using CodyDocs.EditorUI.DocumentedCodeHighlighter;
+using CodyDocs.Models;
 using Microsoft.VisualStudio.Text;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,16 @@ namespace CodyDocs.Events
         {
             TrackingSpan = trackingSpan;
             NewDocumentation = newDocumentation;
+        }
+    }
+
+    public class DocumentationDeletedEvent
+    {
+        public DocumentedCodeHighlighterTag Tag { get; private set; }
+
+        public DocumentationDeletedEvent(DocumentedCodeHighlighterTag tag)
+        {
+            Tag = tag;
         }
     }
 }

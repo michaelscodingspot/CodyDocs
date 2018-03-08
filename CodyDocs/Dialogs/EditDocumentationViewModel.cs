@@ -18,6 +18,9 @@ namespace CodyDocs.Dialogs
 {
     public class EditDocumentationViewModel : INotifyPropertyChanged
     {
+        public enum AddDocumentationResult { Cancel, Save, Delete }
+        public AddDocumentationResult Result { get; set; }
+
 
         public IEventAggregator EventAggregator { get; set; }
         private string _documentPath;
@@ -25,7 +28,7 @@ namespace CodyDocs.Dialogs
         bool _existingDocumentation = false;
         private string _selectionText;
 
-        public event Action<bool> CloseRequest;
+        public event Action CloseRequest;
 
         private EditDocumentationViewModel()
         {
@@ -43,9 +46,7 @@ namespace CodyDocs.Dialogs
             _existingDocumentation = true;
             _selectionText = selectionText;
             DocumentationText = documentationText;
-            //this._documentPath = documentPath;
-            //this._selection = selection;
-            //EventAggregator = VisualStudioServices.ComponentModel.GetService<IEventAggregator>();
+            
         }
 
         public string SelectionText => _existingDocumentation ? _selectionText : _selection.Text;
@@ -64,6 +65,8 @@ namespace CodyDocs.Dialogs
             }
         }
 
+        public bool IsExistingDocumentation => _existingDocumentation;
+
         public ICommand _cancelCommand;
         public ICommand CancelCommand
         {
@@ -71,7 +74,11 @@ namespace CodyDocs.Dialogs
             {
                 if (_cancelCommand == null)
                 {
-                    _cancelCommand = new RelayCommand(_ => CloseRequest?.Invoke(false));
+                    _cancelCommand = new RelayCommand(_ =>
+                    {
+                        Result = AddDocumentationResult.Cancel;
+                        CloseRequest?.Invoke();
+                    });
                 }
                 return _cancelCommand;
             }
@@ -100,7 +107,8 @@ namespace CodyDocs.Dialogs
 
             if (_existingDocumentation)
             {
-                CloseRequest?.Invoke(true);
+                Result = AddDocumentationResult.Save;
+                CloseRequest?.Invoke();
                 return;
             }
 
@@ -120,11 +128,29 @@ namespace CodyDocs.Dialogs
                         Filepath = filepath,
                         DocumentationFragment = newDocFragment
                     });
-                CloseRequest?.Invoke(true);
+                Result = AddDocumentationResult.Save;
+                CloseRequest?.Invoke();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Documentation add failed. Exception: " + ex.ToString());
+            }
+        }
+
+        public ICommand _deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (_deleteCommand == null)
+                {
+                    _deleteCommand = new RelayCommand(_ =>
+                    {
+                        Result = AddDocumentationResult.Delete;
+                        CloseRequest?.Invoke();
+                    });
+                }
+                return _deleteCommand;
             }
         }
 
