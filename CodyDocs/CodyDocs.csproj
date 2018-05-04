@@ -61,6 +61,8 @@
     <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\YellowNotepadAdornment.xaml.cs">
       <DependentUpon>YellowNotepadAdornment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditorUI\Glyph\DocumentationGlyphFactory.cs" />
+    <Compile Include="EditorUI\Glyph\DocumentationGlyphFactoryProvider.cs" />
     <Compile Include="Services\DocumentLifetimeManager.cs" />
     <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentationFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">

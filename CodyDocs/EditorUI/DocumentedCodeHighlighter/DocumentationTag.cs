@@ -1,10 +1,11 @@
 ﻿using CodyDocs.Models;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 
 namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
-    public class DocumentationTag : TextMarkerTag
+    public class DocumentationTag : TextMarkerTag, IGlyphTag
     {
         public string DocumentationFragmentText { get; private set; }
         public ITrackingSpan TrackingSpan { get; set; }
