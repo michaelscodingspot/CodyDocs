@@ -12,7 +12,7 @@ using EnvDTE;
 
 namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
-    class DocumentedCodeHighlighterTagger : ITagger<DocumentedCodeHighlighterTag>
+    class DocumentationTagger : ITagger<DocumentationTag>
     {
         private ITextView _textView;
         private ITextBuffer _buffer;
@@ -32,7 +32,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
         Dictionary<ITrackingSpan, string> _trackingSpans;
         
 
-        public DocumentedCodeHighlighterTagger(ITextView textView, ITextBuffer buffer, IEventAggregator eventAggregator)
+        public DocumentationTagger(ITextView textView, ITextBuffer buffer, IEventAggregator eventAggregator)
         {
             _textView = textView;
             _buffer = buffer;
@@ -178,9 +178,9 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
-        public IEnumerable<ITagSpan<DocumentedCodeHighlighterTag>> GetTags(NormalizedSnapshotSpanCollection spans)
+        public IEnumerable<ITagSpan<DocumentationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
-            List<ITagSpan<DocumentedCodeHighlighterTag>> tags = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
+            List<ITagSpan<DocumentationTag>> tags = new List<ITagSpan<DocumentationTag>>();
             if (spans.Count == 0)
                 return tags;
 
@@ -192,8 +192,8 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 {
                     var snapshotSpan = new SnapshotSpan(relevantSnapshot, spanInCurrentSnapshot);
                     var documentationText = _trackingSpans[trackingSpan];
-                    tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, 
-                        new DocumentedCodeHighlighterTag(documentationText, trackingSpan, _buffer)));
+                    tags.Add(new TagSpan<DocumentationTag>(snapshotSpan, 
+                        new DocumentationTag(documentationText, trackingSpan, _buffer)));
                 }
                 
             }

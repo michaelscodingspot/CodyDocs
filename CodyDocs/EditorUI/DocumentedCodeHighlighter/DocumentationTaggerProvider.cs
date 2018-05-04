@@ -11,13 +11,13 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
     [Export]
     [Export(typeof(IViewTaggerProvider))]
     [ContentType("code")]
-    [TagType(typeof(DocumentedCodeHighlighterTag))]
-    public class DocumentedCodeHighlighterTaggerProvider : IViewTaggerProvider
+    [TagType(typeof(DocumentationTag))]
+    public class DocumentationTaggerProvider : IViewTaggerProvider
     {
         private IEventAggregator _eventAggregator;
 
         [ImportingConstructor]
-        public DocumentedCodeHighlighterTaggerProvider(IEventAggregator eventAggregator)
+        public DocumentationTaggerProvider(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
         }
@@ -35,7 +35,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 return null;
 
             return buffer.Properties.GetOrCreateSingletonProperty("DocumentedCodeHighlighterTagger", () =>
-                new DocumentedCodeHighlighterTagger(textView, buffer, _eventAggregator) as ITagger<T>);
+                new DocumentationTagger(textView, buffer, _eventAggregator) as ITagger<T>);
         }
     }
 }

@@ -31,13 +31,13 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 
 
 
-        public DocumentedCodeHighlighterTag DocumentationTag
+        public DocumentationTag DocumentationTag
         {
-            get { return (DocumentedCodeHighlighterTag)GetValue(DocumentationTagProperty); }
+            get { return (DocumentationTag)GetValue(DocumentationTagProperty); }
             set { SetValue(DocumentationTagProperty, value); }
         }
         public static readonly DependencyProperty DocumentationTagProperty =
-            DependencyProperty.Register("DocumentationTag", typeof(DocumentedCodeHighlighterTag), typeof(YellowNotepadAdornment), new PropertyMetadata(null));
+            DependencyProperty.Register("DocumentationTag", typeof(DocumentationTag), typeof(YellowNotepadAdornment), new PropertyMetadata(null));
 
 
         public ITextBuffer Buffer

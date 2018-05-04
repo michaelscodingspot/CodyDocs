@@ -47,9 +47,9 @@ namespace CodyDocs.Events
 
     public class DocumentationDeletedEvent
     {
-        public DocumentedCodeHighlighterTag Tag { get; private set; }
+        public DocumentationTag Tag { get; private set; }
 
-        public DocumentationDeletedEvent(DocumentedCodeHighlighterTag tag)
+        public DocumentationDeletedEvent(DocumentationTag tag)
         {
             Tag = tag;
         }

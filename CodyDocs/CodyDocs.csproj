@@ -62,13 +62,13 @@
       <DependentUpon>YellowNotepadAdornment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\DocumentLifetimeManager.cs" />
-    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeFormatDefinition.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentationFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
       <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeHighlighterTag.cs" />
-    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeHighlighterTagger.cs" />
-    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentedCodeHighlighterTaggerProvider.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentationTag.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentationTagger.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentationTaggerProvider.cs" />
     <Compile Include="Dialogs\BaseDialogWindow.cs" />
     <Compile Include="CodyDocsPackage.cs" />
     <Compile Include="Commands\DocumentCodeSpanCommand.cs" />

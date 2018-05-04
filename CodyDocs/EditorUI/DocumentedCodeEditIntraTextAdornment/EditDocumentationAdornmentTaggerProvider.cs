@@ -33,8 +33,8 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
             if (buffer != textView.TextBuffer)
                 return null;
 
-            ITagAggregator< DocumentedCodeHighlighterTag> tagAggregator = 
-                ViewTagAggregatorFactoryService.CreateTagAggregator<DocumentedCodeHighlighterTag>(textView);
+            ITagAggregator< DocumentationTag> tagAggregator = 
+                ViewTagAggregatorFactoryService.CreateTagAggregator<DocumentationTag>(textView);
 
             return textView.Properties.GetOrCreateSingletonProperty(() => 
                 new EditDocumentationAdornmentTagger((IWpfTextView)textView, tagAggregator) as ITagger<T>);

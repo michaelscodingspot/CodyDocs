@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.Text.Tagging;
 namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 {
     
-    internal sealed class EditDocumentationAdornmentTagger : IntraTextAdornmentTagger<DocumentedCodeHighlighterTag, YellowNotepadAdornment>
+    internal sealed class EditDocumentationAdornmentTagger : IntraTextAdornmentTagger<DocumentationTag, YellowNotepadAdornment>
     {
-        private ITagAggregator<DocumentedCodeHighlighterTag> _tagAggregator;
+        private ITagAggregator<DocumentationTag> _tagAggregator;
         private ITextBuffer _buffer;
         private string _codyDocsFilename;
 
-        public EditDocumentationAdornmentTagger(IWpfTextView view, ITagAggregator<DocumentedCodeHighlighterTag> tagAggregator)
+        public EditDocumentationAdornmentTagger(IWpfTextView view, ITagAggregator<DocumentationTag> tagAggregator)
             : base(view)
         {
             this._tagAggregator = tagAggregator;
@@ -44,7 +44,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
         // To produce adornments that don't obscure the text, the adornment tags
         // should have zero length spans. Overriding this method allows control
         // over the tag spans.
-        protected override IEnumerable<Tuple<SnapshotSpan, PositionAffinity?, DocumentedCodeHighlighterTag>> GetAdornmentData(NormalizedSnapshotSpanCollection spans)
+        protected override IEnumerable<Tuple<SnapshotSpan, PositionAffinity?, DocumentationTag>> GetAdornmentData(NormalizedSnapshotSpanCollection spans)
         {
             if (spans.Count == 0)
                 yield break;
@@ -53,7 +53,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 
             var commentTags = _tagAggregator.GetTags(spans);
 
-            foreach (IMappingTagSpan<DocumentedCodeHighlighterTag> commentTag in commentTags)
+            foreach (IMappingTagSpan<DocumentationTag> commentTag in commentTags)
             {
                 NormalizedSnapshotSpanCollection colorTagSpans = commentTag.Span.GetSpans(snapshot);
 
@@ -71,7 +71,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
             }
         }
 
-        protected override YellowNotepadAdornment CreateAdornment(DocumentedCodeHighlighterTag additionalData, SnapshotSpan span)
+        protected override YellowNotepadAdornment CreateAdornment(DocumentationTag additionalData, SnapshotSpan span)
         {
             return new YellowNotepadAdornment()
             {
@@ -80,7 +80,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
             };
         }
 
-        protected override bool UpdateAdornment(YellowNotepadAdornment adornment, DocumentedCodeHighlighterTag additionalData)
+        protected override bool UpdateAdornment(YellowNotepadAdornment adornment, DocumentationTag additionalData)
         {
             //adornment.Update(additionalData);
             return false;
