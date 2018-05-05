@@ -5,13 +5,13 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
-    public class DocumentationTag : TextMarkerTag, IGlyphTag
+    public class DocumentationTag : IGlyphTag
     {
         public string DocumentationFragmentText { get; private set; }
         public ITrackingSpan TrackingSpan { get; set; }
         public ITextBuffer TextBuffer { get; set; }
 
-        public DocumentationTag(string fragment, ITrackingSpan trackingSpan, ITextBuffer buffer) : base("MarkerFormatDefinition/DocumentedCodeFormatDefinition")
+        public DocumentationTag(string fragment, ITrackingSpan trackingSpan, ITextBuffer buffer)
         {
             DocumentationFragmentText = fragment;
             TrackingSpan = trackingSpan;

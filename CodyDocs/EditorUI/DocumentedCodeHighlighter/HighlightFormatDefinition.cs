@@ -8,9 +8,9 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
     [Export(typeof(EditorFormatDefinition))]
     [Name("MarkerFormatDefinition/DocumentedCodeFormatDefinition")]
     [UserVisible(true)]
-    internal class DocumentationFormatDefinition : MarkerFormatDefinition
+    internal class HighlightFormatDefinition : MarkerFormatDefinition
     {
-        public DocumentationFormatDefinition()
+        public HighlightFormatDefinition()
         {
             var orange = Brushes.Orange.Clone();
             orange.Opacity = 0.25;
@@ -21,8 +21,5 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
         }
     }
 
-    class x: ClassificationFormatDefinition
-    {
-
-    }
+    
 }

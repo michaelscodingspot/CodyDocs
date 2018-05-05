@@ -61,10 +61,13 @@
     <Compile Include="EditorUI\DocumentedCodeEditIntraTextAdornment\YellowNotepadAdornment.xaml.cs">
       <DependentUpon>YellowNotepadAdornment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\HighlightTagger.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\HighlightTaggerProvider.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\HighlightTag.cs" />
     <Compile Include="EditorUI\Glyph\DocumentationGlyphFactory.cs" />
     <Compile Include="EditorUI\Glyph\DocumentationGlyphFactoryProvider.cs" />
     <Compile Include="Services\DocumentLifetimeManager.cs" />
-    <Compile Include="EditorUI\DocumentedCodeHighlighter\DocumentationFormatDefinition.cs" />
+    <Compile Include="EditorUI\DocumentedCodeHighlighter\HighlightFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">
       <DependentUpon>AddDocumentationWindow.xaml</DependentUpon>
     </Compile>
