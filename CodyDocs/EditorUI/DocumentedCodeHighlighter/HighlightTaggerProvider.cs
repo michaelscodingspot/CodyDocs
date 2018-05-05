@@ -18,9 +18,17 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 #pragma warning disable 649 // "field never assigned to" -- field is set by MEF.
         [Import]
         internal IViewTagAggregatorFactoryService ViewTagAggregatorFactoryService;
+        private IEventAggregator _eventAggregator;
+
 #pragma warning restore 649
 
-        
+        [ImportingConstructor]
+        public HighlightTaggerProvider(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
+
+
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
             if (textView == null)
@@ -36,7 +44,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
                 ViewTagAggregatorFactoryService.CreateTagAggregator<DocumentationTag>(textView);
 
             return textView.Properties.GetOrCreateSingletonProperty(() =>
-                new HighlightTagger((IWpfTextView)textView, tagAggregator) as ITagger<T>);
+                new HighlightTagger((IWpfTextView)textView, tagAggregator, _eventAggregator) as ITagger<T>);
         }
     }
 }

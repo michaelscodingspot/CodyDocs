@@ -78,11 +78,15 @@ namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
         private void OnMouseEnterImage(object sender, MouseEventArgs e)
         {
             HoverPopup.IsOpen = true;
+            EventAggregator.SendMessage<MouseHoverOnDocumentationEvent>
+                    (new MouseHoverOnDocumentationEvent(DocumentationTag, MouseHoverOnDocumentationEvent.HoverMode.Started));
         }
 
         private void OnMouseLeaveImage(object sender, MouseEventArgs e)
         {
             ClosePopupIfNecessary();
+            EventAggregator.SendMessage<MouseHoverOnDocumentationEvent>
+                        (new MouseHoverOnDocumentationEvent(DocumentationTag, MouseHoverOnDocumentationEvent.HoverMode.Ended));
         }
 
         private void ClosePopupIfNecessary()

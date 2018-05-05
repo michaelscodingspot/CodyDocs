@@ -37,7 +37,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             _textView = textView;
             _buffer = buffer;
             _eventAggregator = eventAggregator;
-            _filename = GetFileName(buffer);
+            _filename = buffer.GetFileName();
             
             _documentationAddedListener = new DelegateListener<DocumentationAddedEvent>(OnDocumentationAdded);
             _eventAggregator.AddListener<DocumentationAddedEvent>(_documentationAddedListener);
@@ -169,13 +169,7 @@ namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
             }
         }
 
-        private string GetFileName(ITextBuffer buffer)
-        {
-            buffer.Properties.TryGetProperty(
-                typeof(ITextDocument), out ITextDocument document);
-            return document == null ? null : document.FilePath;
-        }
-
+        
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
         public IEnumerable<ITagSpan<DocumentationTag>> GetTags(NormalizedSnapshotSpanCollection spans)

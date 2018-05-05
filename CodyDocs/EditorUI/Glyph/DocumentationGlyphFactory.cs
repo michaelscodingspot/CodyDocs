@@ -1,4 +1,5 @@
 ﻿using CodyDocs.EditorUI.DocumentedCodeHighlighter;
+using CodyDocs.Events;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using System;
@@ -18,6 +19,12 @@ namespace CodyDocs.EditorUI.Glyph
     /// </summary>
     internal class DocumentationGlyphFactory : IGlyphFactory
     {
+        public IEventAggregator EventAggregator { get; }
+
+        public DocumentationGlyphFactory(IEventAggregator eventAggregator)
+        {
+            EventAggregator = eventAggregator;
+        }
 
         public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
         {
@@ -31,13 +38,15 @@ namespace CodyDocs.EditorUI.Glyph
                 Width = lineHeight,
                 Height = lineHeight * numOfLines
             };
-            grid.Children.Add(new Rectangle()
+            var rectangle = new Rectangle()
             {
-                Fill = Brushes.YellowGreen,
+                Fill = Brushes.Yellow,
                 Width = lineHeight / 3,
                 Height = lineHeight * numOfLines,
                 HorizontalAlignment = HorizontalAlignment.Right
-            });
+            };
+            grid.Children.Add(rectangle);
+
             return grid;
         }
 

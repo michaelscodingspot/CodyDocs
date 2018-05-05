@@ -1,11 +1,6 @@
 ﻿using CodyDocs.EditorUI.DocumentedCodeHighlighter;
 using CodyDocs.Models;
 using Microsoft.VisualStudio.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodyDocs.Events
 {
@@ -52,6 +47,23 @@ namespace CodyDocs.Events
         public DocumentationDeletedEvent(DocumentationTag tag)
         {
             Tag = tag;
+        }
+    }
+
+    public class MouseHoverOnDocumentationEvent
+    {
+        public enum HoverMode { Started, Ended };
+
+        public DocumentationTag Tag { get; private set; }
+        public HoverMode HoverMode1 { get; }
+
+        /// <summary>
+        /// When entered = false, means hover e
+        /// </summary>
+        public MouseHoverOnDocumentationEvent(DocumentationTag tag, HoverMode hoverMode)
+        {
+            Tag = tag;
+            HoverMode1 = hoverMode;
         }
     }
 }
