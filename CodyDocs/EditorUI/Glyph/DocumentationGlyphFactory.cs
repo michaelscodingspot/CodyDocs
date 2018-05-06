@@ -40,7 +40,8 @@ namespace CodyDocs.EditorUI.Glyph
             };
             var rectangle = new Rectangle()
             {
-                Fill = Brushes.Yellow,
+                Fill = new SolidColorBrush(Color.FromRgb(240,222, 2)),
+                Stroke = Brushes.Gray,
                 Width = lineHeight / 3,
                 Height = lineHeight * numOfLines,
                 HorizontalAlignment = HorizontalAlignment.Right
