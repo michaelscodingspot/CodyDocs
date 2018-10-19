@@ -11,7 +11,7 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
     [Export]
     [Export(typeof(IViewTaggerProvider))]
     [ContentType("code")]
-    [TagType(typeof(DocumentedCodeHighlighterTag))]
+    [TagType(typeof(OutliningRegionTag))]
     public class DocumentedCodeHighlighterTaggerProvider : IViewTaggerProvider
     {
         private IEventAggregator _eventAggregator;

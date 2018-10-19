@@ -10,12 +10,12 @@ using CodyDocs.Models;
 
 namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
 {
-    public class DocumentedCodeHighlighterTag : TextMarkerTag
+    public class OutliningRegionTag : TextMarkerTag
     {
-        public DocumentedCodeHighlighterTag() : base("MarkerFormatDefinition/DocumentedCodeFormatDefinition") { }
+        public OutliningRegionTag() : base("MarkerFormatDefinition/DocumentedCodeFormatDefinition") { }
     }
 
-    class DocumentedCodeHighlighterTagger : ITagger<DocumentedCodeHighlighterTag>
+    class DocumentedCodeHighlighterTagger : ITagger<OutliningRegionTag>
     {
         private ITextView _textView;
         private ITextBuffer _buffer;
@@ -130,9 +130,9 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
-        public IEnumerable<ITagSpan<DocumentedCodeHighlighterTag>> GetTags(NormalizedSnapshotSpanCollection spans)
+        public IEnumerable<ITagSpan<OutliningRegionTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
-            List<ITagSpan<DocumentedCodeHighlighterTag>> tags = new List<ITagSpan<DocumentedCodeHighlighterTag>>();
+            List<ITagSpan<OutliningRegionTag>> tags = new List<ITagSpan<OutliningRegionTag>>();
 
             List<ITrackingSpan> keysIncluded = new List<ITrackingSpan>();
             var currentSnapshot = _buffer.CurrentSnapshot;
@@ -142,7 +142,7 @@ namespace CodyDocs.TextFormatting.DocumentedCodeHighlighter
                 if (spans.Any(sp => spanInCurrentSnapshot.IntersectsWith(sp)))
                 {
                     var snapshotSpan = new SnapshotSpan(currentSnapshot, spanInCurrentSnapshot);
-                    tags.Add(new TagSpan<DocumentedCodeHighlighterTag>(snapshotSpan, new DocumentedCodeHighlighterTag()));
+                    tags.Add(new TagSpan<OutliningRegionTag>(snapshotSpan, new OutliningRegionTag()));
                 }
                 
             }
