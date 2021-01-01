@@ -9,6 +9,8 @@ using System.ComponentModel.Composition;
 
 namespace CodyDocs.EditorUI.DocumentedCodeHighlighter
 {
+    [TextViewRole("PRIMARYDOCUMENT")]
+    [TextViewRole("PredictMarginProjectionRole")]
     [Export]
     [Export(typeof(IViewTaggerProvider))]
     [ContentType("code")]

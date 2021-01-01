@@ -7,6 +7,8 @@ using CodyDocs.Events;
 
 namespace CodyDocs.EditorUI.Glyph
 {
+    [TextViewRole("PRIMARYDOCUMENT")]
+    [TextViewRole("PredictMarginProjectionRole")]
     [Export(typeof(IGlyphFactoryProvider))]
     [Name("DocumentationGlyph")]
     [Order(Before = "VsTextMarker")]

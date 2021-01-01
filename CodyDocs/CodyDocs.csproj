@@ -66,6 +66,11 @@
     <Compile Include="EditorUI\DocumentedCodeHighlighter\HighlightTag.cs" />
     <Compile Include="EditorUI\Glyph\DocumentationGlyphFactory.cs" />
     <Compile Include="EditorUI\Glyph\DocumentationGlyphFactoryProvider.cs" />
+    <Compile Include="EditorUI\IntraTaggerForOzCode\HUDTextExpanderTaggerFactory.cs" />
+    <Compile Include="EditorUI\IntraTaggerForOzCode\InterLineAdornmentManager.cs" />
+    <Compile Include="EditorUI\IntraTaggerForOzCode\InterLineAdornmentManagerFactory.cs" />
+    <Compile Include="EditorUI\IntraTaggerForOzCode\IntraTaggerForOzCode.cs" />
+    <Compile Include="EditorUI\IntraTaggerForOzCode\TextExpanderTagger.cs" />
     <Compile Include="Services\DocumentLifetimeManager.cs" />
     <Compile Include="EditorUI\DocumentedCodeHighlighter\HighlightFormatDefinition.cs" />
     <Compile Include="Dialogs\AddDocumentationWindow.xaml.cs">

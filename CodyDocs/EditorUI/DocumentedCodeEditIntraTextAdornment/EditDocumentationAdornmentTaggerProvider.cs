@@ -11,8 +11,11 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace CodyDocs.EditorUI.DocumentedCodeEditIntraTextAdornment
 {
+    [TextViewRole("PRIMARYDOCUMENT")]
+    [TextViewRole("PredictMarginProjectionRole")]
+    [Export]
     [Export(typeof(IViewTaggerProvider))]
-    [ContentType("code")]
+    [ContentType("csharp")]
     [TagType(typeof(IntraTextAdornmentTag))]
     internal sealed class EditDocumentationAdornmentTaggerProvider : IViewTaggerProvider
     {
